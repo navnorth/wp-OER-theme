@@ -371,7 +371,9 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 				<?php comment_reply_link( array_merge( $args, array( 'reply_text' => __( 'Reply', 'twentytwelve' ), 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 			</div><!-- .reply -->
 		</article><!-- #comment-## -->
+	 
 	<?php
+	
 		break;
 	endswitch; // end comment_type check
 }
@@ -531,6 +533,8 @@ function get_category_child($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
 	$catchilds = get_categories($args);
+	$term = get_the_title();
+	$rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 	
 	if(!empty($catchilds))
 	{	
@@ -538,16 +542,30 @@ function get_category_child($categoryid)
 		foreach($catchilds as $catchild)
 		{
 			$children = get_term_children($catchild->term_id, 'resource-category');
+			//current class
+			if($rsltdata['term_id'] == $catchild->term_id)
+			{
+				$class = ' activelist current_class';	
+			}
+			elseif($rsltdata['parent']  == $catchild->term_id)
+			{
+				$class = ' activelist current_class';
+			}
+			else
+			{
+				$class = '';
+			}
+			
 			if( !empty( $children ) )
 			{
-				echo '<li class="sub-category has-child" id="'.$catchild->term_id.'" title="'. $catchild->name .'" >
+				echo '<li class="sub-category has-child'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
 							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
 						</span>';
 			}
 			else
 			{
-				echo '<li class="sub-category" id="'.$catchild->term_id.'" title="'. $catchild->name .'" >
+				echo '<li class="sub-category'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
 							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
 						</span>';
@@ -559,7 +577,7 @@ function get_category_child($categoryid)
 	}	
 }
 
-function fdhfhkhfdjhfkfh($categoryid)
+function front_child_category($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
 	$catchilds = get_categories($args);
@@ -570,15 +588,17 @@ function fdhfhkhfdjhfkfh($categoryid)
 		foreach($catchilds as $catchild)
 		{
 			$children = get_term_children($catchild->term_id, 'resource-category');
+			$count = oer_post_count($catchild->term_id, "resource-category");
+			$count = $count + $catchild->count;
 			if( !empty( $children ) )
 			{
-				$rtrn .=  '<li class="sub-category has-child" id="'.$catchild->term_id.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a></span>';
+				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
 			}
 			else
 			{
-				$rtrn .=  '<li class="sub-category" id="'.$catchild->term_id.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a></span>';				
+				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';				
 			}	
-			get_category_child( $catchild->term_id);
+			$rtrn .=  front_child_category( $catchild->term_id);
 			$rtrn .= '</li>';
 		}
 		$rtrn .=  '</ul>';
@@ -587,10 +607,26 @@ function fdhfhkhfdjhfkfh($categoryid)
 	return $rtrn;	
 }
 
+function oer_post_count($category, $taxonomy)
+{
+	$count = 0;
+	$args = array(
+	  'child_of' => $category,
+	);
+	
+	$tax_terms = get_terms($taxonomy,$args);
+	foreach ($tax_terms as $tax_term)
+	{
+		$count +=$tax_term->count;
+	}
+	return $count;
+}
+
 add_action('wp_enqueue_scripts', 'addthemescripts');
 function addthemescripts()
 {
 	wp_enqueue_style('bxslider-style', get_template_directory_uri().'/css/jquery.bxslider.css');
+	wp_enqueue_style('additional-style', get_template_directory_uri().'/css/additional.css');
 	
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('bxslider-script', get_template_directory_uri().'/js/jquery.bxslider.js');

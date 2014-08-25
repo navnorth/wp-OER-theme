@@ -9,18 +9,9 @@
  * @since Twenty Twelve 1.0
  */
 ?>
-	<!--</div><!-- #main .wrapper 
-	<footer id="colophon" role="contentinfo">
-		<div class="site-info">
-			<?php //do_action( 'twentytwelve_credits' ); ?>
-			<a href="<?php //echo esc_url( __( 'http://wordpress.org/', 'twentytwelve' ) ); ?>" title="<?php //esc_attr_e( 'Semantic Personal Publishing Platform', 'twentytwelve' ); ?>"><?php //printf( __( 'Proudly powered by %s', 'twentytwelve' ), 'WordPress' ); ?></a>
-		</div><!-- .site-info 
-	</footer><!-- #colophon 
-</div><!-- #page -->
-
 <div class="ftr-wrpr">
 	<div class="ftr-inr-wrpr">
-    	<span class="ftr-navi-cntnr">
+    	<div class="ftr-navi-cntnr">
         	<?php
 			$defaults = array(
 				'theme_location'  => '',
@@ -33,8 +24,8 @@
 			
 			wp_nav_menu( $defaults );
 			?>
-        </span>
-        <span class="ftr-logos">
+        </div>
+        <div class="ftr-logos">
         	<ul>
 				<?php
 					$footer_link_first = get_option('footer_link_first');
@@ -56,11 +47,12 @@
                 
             </ul>
         	
-        </span>
+        </div>
     
     </div>
 </div>
-
+</div><!--#main closed-->
+</div><!--#page closed-->
 <?php wp_footer(); ?>
 </body>
 </html>

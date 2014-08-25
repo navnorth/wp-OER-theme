@@ -1,11 +1,12 @@
 <?php
 /*
- * Template Name: Category Template One
+ * Template Name: Category Template Two
  */
 get_header();
 $term = get_the_title();
 $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 ?>
+
 <div class="cntnr">
 	<div class="category_sidebar">
 	<?php
@@ -60,7 +61,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					if(!empty($getimage))
 					{
 						$attach_icn = get_post($getimage[0]->post_id);
-						echo '<li><img src="'. $timthumb.'?src='.$attach_icn->guid.'&amp;w=32&amp;h=32&amp;zc=0" alt="Breadcrumbs Icon" /></li>';
+						echo '<li><img src="'. $timthumb.'?src='.$attach_icn->guid.'&w=32&h=32&zc=0" /></li>';
 					}
 					else
 					{
@@ -79,46 +80,13 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 			</ul>	
 		</div> <!--Breadcrumbs-->
 	
-		<div class="right_featuredwpr">
-			<div class="ftrdttl">Highlighted Resources</div>
-			<?php
-			$args = array(
-				'meta_key' => 'oer_highlight',
-				'meta_value' => 1,
-				'post_type' => 'resource',
-				'posts_per_page' => -1,
-				'tax_query' => array(array('taxonomy' => 'resource-category','terms' => array(84)))
-			);
-			$posts = get_posts($args);
-			?>
-			<ul class="featuredwpr_bxslider">
-				<?php
-				$timthumb = get_template_directory_uri().'/lib/timthumb.php';
-				foreach($posts as $post)
-				{
-					$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-					$title =  $post->post_title;
-					$content =  $post->post_content;
-					$content = substr($content, 0, 40);
+		<div class="allftrdpst">
+			<?php 
+				 $postid = get_the_ID();
+				 echo $rslt = get_post_meta($postid, "enhance_page_content", true);
 				?>
-					<li>
-						<div class="frtdsnglwpr">
-							<?php
-							if(!empty($image)){?>
-							<div class="img"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
-							<?php }?>
-							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
-							<div class="desc"><?php echo $content; ?></div>
-						</div>
-					</li>
-				<?php
-				}
-				wp_reset_postdata();
-				?>
-			</ul>
-	
-		</div> 
-    
+		</div> <!--Text and HTML Widget-->
+		
 		<div class="allftrdrsrc">
 			<div class="snglrsrchdng">Browse <?php echo get_the_title();?> Resources</div>
 			<div class="allftrdrsrccntr">
@@ -139,7 +107,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				?>
 					<div class="snglrsrc">
 						 <?php if(!empty($image)){?>
-						<div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
+						<div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&w=80&h=60&zc=0';?>"></div>
 						<?php }?>
 						<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
 							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
@@ -153,61 +121,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 		   </div>
 		</div> <!--Browse By Categories-->
     
-		<div class="allftrdpst">
-			<?php 
-				 $postid = get_the_ID();
-				 echo $rslt = get_post_meta($postid, "enhance_page_content", true);
-				?>
-		</div> <!--Text and HTML Widget-->
-	
-		<div class="allftrdpst">
-			<div class="alltrdpsthdng">Features</div>
-			<div class="inrftrdpstwpr">
-				<?php
-				$args = array(
-					'post_type' => 'post',
-					'posts_per_page' => -1,
-					'category' => 84
-				);
-				$posts = get_posts($args);
-				?>
-				
-				<ul class="allftrdpst_slider">
-				<?php
-				$timthumb = get_template_directory_uri().'/lib/timthumb.php';
-				foreach($posts as $post)
-				{
-					$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-					$title =  $post->post_title;
-					$content =  $post->post_content;
-					$content = substr($content, 0, 250);
-				?>
-					<li>
-						<div class="allftrdsngl">
-							<?php
-							if(!empty($image)){?>
-							<div class="pstimg"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
-							<?php }?>
-							<div class="psttl"><?php echo $title;?></div>
-							<div class="pstdesc"><?php echo $content; ?></div>
-							<div class="pstrdmr"><a href="<?php echo get_permalink($post->ID);?>">More</a></div>
-							<div class="pstmta">
-								<span class="date-icn"><?php echo get_the_time( 'F j, Y', $post->ID );?></span>
-								<span class="time-icn"><?php echo  date('H:i', get_post_time( 'U', true));?></span>
-							</div>
-						</div>
-					</li>
-				<?php
-				}
-				wp_reset_postdata();
-				?>
-			</ul>
-				
-				
-			</div>
-		</div> <!--Feature Resource Widget-->
-    
-	</div> <!--Content-->
+	</div>
 </div>
 
 <?php get_sidebar( 'front' ); ?>
