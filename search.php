@@ -9,6 +9,7 @@
 
 get_header(); ?>
 
+<div class="cntnr">	
 	<section id="primary" class="site-content">
 		<div id="content" role="main">
 
@@ -18,16 +19,32 @@ get_header(); ?>
 				<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'twentytwelve' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 			</header>
 
-			<?php twentytwelve_content_nav( 'nav-above' ); ?>
-
 			<?php /* Start the Loop */ ?>
 			<?php while ( have_posts() ) : the_post(); ?>
-				<?php get_template_part( 'content', get_post_format() ); ?>
-			<?php endwhile; ?>
 
-			<?php twentytwelve_content_nav( 'nav-below' ); ?>
-
-		<?php else : ?>
+				<div class="oer_blgpst">
+					
+                    <?php if ( has_post_thumbnail() ) {?>
+						<div class="oer-feature-image">
+						<?php if ( ! post_password_required() && ! is_attachment() ) :
+							the_post_thumbnail("thumbnail");
+						endif; ?>
+						</div>
+					<?php }?>
+					
+                    <div class="rght-sd-cntnr-blg">
+                        <h2><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+            
+                        <div class="small"><span><?php the_time('F jS, Y'); ?> </span></div>
+                                                
+                        <div class="oer-post-content">
+                            <?php the_excerpt(); ?>
+                        </div>
+					</div>
+				</div>
+		 <?php endwhile; ?>
+		 
+		 <?php else : ?>
 
 			<article id="post-0" class="post no-results not-found">
 				<header class="entry-header">
@@ -36,7 +53,6 @@ get_header(); ?>
 
 				<div class="entry-content">
 					<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'twentytwelve' ); ?></p>
-					<?php get_search_form(); ?>
 				</div><!-- .entry-content -->
 			</article><!-- #post-0 -->
 
@@ -44,6 +60,5 @@ get_header(); ?>
 
 		</div><!-- #content -->
 	</section><!-- #primary -->
-
-<?php get_sidebar(); ?>
+</div>
 <?php get_footer(); ?>

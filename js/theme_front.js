@@ -25,7 +25,16 @@ function togglenavigation(ref)
 	{
 		if(value == ref)
 		{
-			jQuery(value).addClass("active-cat");
+			if(jQuery(value).hasClass("active-cat"))
+			{
+				jQuery(value).removeClass("active-cat");
+			}
+			else
+			{
+				jQuery(value).addClass("active-cat");
+			}
+			
+			
 			if ( jQuery(value).children(".active-arrow").length )
 			{
 				jQuery(value).children( ".active-arrow" ).remove();
@@ -75,20 +84,7 @@ function togglenavigation(ref)
 			jQuery(this).slideUp("slow");
 		}
 	});
-	
-	//changing background
-	/*var back_img = jQuery(ref).attr("data-ownback");
-	jQuery(".cat-div").each(function(index, element){
-		jQuery(this).css("background-image", "none");
-	})
-	if(jQuery(ref).css("background-image") == "none")
-	{
-		jQuery(ref).css("background-image", "url("+back_img+")");
-	}
-	else
-	{
-		jQuery(this).css("background-image", "none");
-	}*/
+
 }
 
 function togglenavigation_mobile(ref)
@@ -143,4 +139,31 @@ function rsrc_tabs(ref)
 		jQuery( "." + value ).css("display", "none");
 	  }
 	});
+}
+
+function load_onScroll(ref)
+{
+	var path = jQuery(ref).attr("file-path");
+	var dataId = jQuery(ref).attr("data-id");
+	
+	if(jQuery(ref).scrollTop() >= 15)
+	{
+		jQuery.ajax({
+			type: "POST",
+			url: path,
+			data: "termid="+dataId+"&task=dataScroll",
+			success: function (res)
+			{
+           		jQuery(ref).html(res);
+        	}
+        });
+	}
+}
+function collapse(ref)
+{
+	jQuery(".category_sidebar").slideToggle(500, function () {
+        jQuery(ref).text(function () {
+            return jQuery(ref).is(":visible") ? "Collapse" : "Expand";
+        });
+    });	
 }

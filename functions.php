@@ -240,7 +240,7 @@ add_filter( 'wp_page_menu_args', 'twentytwelve_page_menu_args' );
  * @since Twenty Twelve 1.0
  */
 function twentytwelve_widgets_init() {
-	register_sidebar( array(
+	/*register_sidebar( array(
 		'name' => __( 'Main Sidebar', 'twentytwelve' ),
 		'id' => 'sidebar-1',
 		'description' => __( 'Appears on posts and pages except the optional Front Page template, which has its own widgets', 'twentytwelve' ),
@@ -268,7 +268,7 @@ function twentytwelve_widgets_init() {
 		'after_widget' => '</aside>',
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
-	) );
+	) );*/
 	
 	register_sidebar( array(
 		'name' => __( 'Twitter Feeds at Home Page', 'twentytwelve' ),
@@ -373,7 +373,6 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 		</article><!-- #comment-## -->
 	 
 	<?php
-	
 		break;
 	endswitch; // end comment_type check
 }
@@ -529,12 +528,23 @@ require( get_template_directory() . '/inc/metabox.php' );
 //Add Site Options
 require ( get_template_directory() .'/inc/site_option.php' );
 
+//Get Category Child for Sidebar
 function get_category_child($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
 	$catchilds = get_categories($args);
 	$term = get_the_title();
 	$rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
+	$parentid = array();
+	if($rsltdata['parent'] != 0)
+	{
+		$parent = get_parent_term($rsltdata['parent']);
+		for($k=0; $k < count($parent); $k++)
+		{
+			$idObj = get_category_by_slug($parent[$k]);
+			$parentid[] = $idObj->term_id;
+		}
+	}
 	
 	if(!empty($catchilds))
 	{	
@@ -547,7 +557,7 @@ function get_category_child($categoryid)
 			{
 				$class = ' activelist current_class';	
 			}
-			elseif($rsltdata['parent']  == $catchild->term_id)
+			elseif(in_array($catchild->term_id, $parentid))
 			{
 				$class = ' activelist current_class';
 			}
@@ -560,14 +570,14 @@ function get_category_child($categoryid)
 			{
 				echo '<li class="sub-category has-child'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
-							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
+							<a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a>
 						</span>';
 			}
 			else
 			{
 				echo '<li class="sub-category'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
-							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
+							<a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a>
 						</span>';
 			}	
 			get_category_child( $catchild->term_id);
@@ -577,6 +587,16 @@ function get_category_child($categoryid)
 	}	
 }
 
+//Get Category Parent List
+function get_parent_term($id)
+{
+	$curr_cat = get_category_parents($id, false, '/' ,true);
+	$curr_cat = explode('/',$curr_cat);
+	
+	return $curr_cat;
+}
+
+//Get Category Child for Homepage
 function front_child_category($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
@@ -592,11 +612,11 @@ function front_child_category($categoryid)
 			$count = $count + $catchild->count;
 			if( !empty( $children ) )
 			{
-				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
+				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a><label>'. $count .'</label></span>';
 			}
 			else
 			{
-				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';				
+				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . ucfirst($catchild->name) .'</a><label>'. $count .'</label></span>';				
 			}	
 			$rtrn .=  front_child_category( $catchild->term_id);
 			$rtrn .= '</li>';
@@ -607,6 +627,7 @@ function front_child_category($categoryid)
 	return $rtrn;	
 }
 
+//Get Total Post Count
 function oer_post_count($category, $taxonomy)
 {
 	$count = 0;
@@ -632,4 +653,30 @@ function addthemescripts()
 	wp_enqueue_script('bxslider-script', get_template_directory_uri().'/js/jquery.bxslider.js');
 	
 	wp_enqueue_script('theme-front', get_template_directory_uri().'/js/theme_front.js');
+}
+
+//Add Custom Post Type to Query Post
+function oer_add_custom_types( $query )
+{
+    if( is_tag() && $query->is_main_query() )
+	{
+        $post_types = get_post_types();
+        $query->set( 'post_type', $post_types );
+    }
+}
+add_filter( 'pre_get_posts', 'oer_add_custom_types' );
+
+//Upload Resource Attachment
+function insert_attachment($file_handler,$post_id,$setthumb='false')
+{
+  if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
+ 
+  require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+  require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+  require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+ 
+  $attach_id = media_handle_upload( $file_handler, $post_id );
+ 
+  if ($setthumb) update_post_meta($post_id,'_thumbnail_id',$attach_id);
+  return $attach_id;
 }
