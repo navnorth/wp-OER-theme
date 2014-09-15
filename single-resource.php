@@ -2,7 +2,7 @@
 /**
  * The Template for displaying all single resource
  */
-
+$timthumb = get_template_directory_uri()."/lib/timthumb.php";
 get_header(); ?>
 	<div class="cntnr">
         <div id="sngl-resource" class="sngl_resource_wrapper">
@@ -22,7 +22,7 @@ get_header(); ?>
                             if(!empty($img_url))
 							{
 							?>
-                            	<img src="<?php echo $img_url;?>" alt="<?php echo the_title(); ?>"/>
+                            	<img src="<?php echo $timthumb; ?>?src=<?php echo $img_url;?>&w=528&h=455&wc=0" alt="<?php echo the_title(); ?>"/>
                         	<?php
 							}
 							?>
@@ -121,7 +121,41 @@ get_header(); ?>
                     <div class="rsrcgrd cbxl">
                     	<h3>Grades:</h3>
                         <div class="view">
-                        	<?php echo get_post_meta($post->ID, "oer_grade", true);?>
+                        	<?php 
+								$grades =  trim(get_post_meta($post->ID, "oer_grade", true),",");
+								$grades = explode(",",$grades);
+								sort($grades);
+								
+								for($x=0; $x < count($grades); $x++)
+								{
+								  $grades[$x];
+								}
+								$fltrarr = array_filter($grades, 'strlen');
+								
+								$flag = array();
+								$elmnt = $fltrarr[min(array_keys($fltrarr))]; 
+								for($i =0; $i < count($fltrarr); $i++)
+								{
+									if($elmnt == $fltrarr[$i])
+									{
+										$flag[] = 1;
+									}
+									else
+									{
+										$flag[] = 0;
+									}
+									$elmnt++;
+								}
+								
+								if(in_array('0',$flag))
+								{
+									echo implode(",",array_unique($fltrarr));
+								}
+								else
+								{
+									echo $fltrarr[0]."-".$fltrarr[end(array_keys($fltrarr))];
+								}
+							?>
                         </div>
                     </div>
                     <div class="created cbxl">

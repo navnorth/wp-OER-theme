@@ -359,7 +359,7 @@ video {
 	margin-left: auto;
 	margin-right: auto;
 }
-.entry-content img,
+<!--.entry-content img,-->
 .comment-content img,
 .widget img,
 img.header-image,
@@ -371,6 +371,14 @@ img.wp-post-image {
 	border: 1px solid #ccc;
 	width: 250px;
 	margin-right: 25px	
+}
+.blg_featureimg{
+	background: none repeat scroll 0 0 #f2f2f2;
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 25px;
+    padding: 3px;
+    width: 250px;
 }
 .wp-caption {
 	max-width: 100%; /* Keep wide captions from overflowing their container. */

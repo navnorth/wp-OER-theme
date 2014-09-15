@@ -23,14 +23,16 @@ get_header(); ?>
 						$tag     = wp_get_post_tags($id);
 						$date    =  get_the_time('F j, Y', $id); 
 						?>
-						<!--<div class="entry-header">
-							
-						</div>-->
+						
 						<div class="entry-content">
-							<img src="<?php echo $image; ?>" />
+							<img src="<?php echo $image; ?>" class="blg_featureimg" />
                             <h1><a href=""><?php echo $title; ?></a></h1>
+							
+							<p><i>Disclaimer: The U.S. Department of Education does not mandate or prescribe particular curricula or lesson plans. This information is provided for the visitor's convenience and is included here as an example of the many resources that parents and educators may find helpful and use at their option. See the <a href="<?php echo site_url(); ?>/disclaimer/" target="_blank">full FREE disclaimer</a></i>.</p>
+							
 							<p><?php echo the_content();?></p> 
-                            <span><?php foreach($tag as $tags){ ?> <a href=""> <?php echo $tags->name."" ;?> </a> // <?php }?> <a href=""><?php echo $date ;?></a></span>
+                            
+							<span><?php foreach($tag as $tags){ ?> <a href=""> <?php echo $tags->name."" ;?> </a> // <?php }?> <a href=""><?php echo $date ;?></a></span>
 						</div>
 					<?php
 					endwhile; 

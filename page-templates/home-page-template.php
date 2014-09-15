@@ -123,7 +123,7 @@ echo '</div>';
     
 	<!--Home Featured Blog Post Section-->
 	<div class="ftrd-cntnr mrgn-left">
-    	<span class="hdng"> - Featured - </span> 
+    	<a href="<?php echo site_url();?>/featured/"><span class="hdng"> - Featured - </span></a>
         <ul>
 		<?php
 			$args = array(
