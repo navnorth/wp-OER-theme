@@ -51,33 +51,33 @@ echo '<div class="ctgry-cntnr">';
 			$count = oer_post_count($category->term_id, "resource-category");
 			$count = $count + $category->count;
 				
-			echo '<div class="cat-div" data-ownback="'.get_template_directory_uri().'/img/top-arrow.png" onMouseOver="changeonhover(this)" onMouseOut="changeonout(this);" onclick="togglenavigation(this);" data-id="'.$cnt.'" data-class="'.$lepcnt.'" data-normalimg="'.$attach_icn->guid.'" data-hoverimg="'.$attach_icn_hover->guid.'">
-						<div class="cat-icn" style="background: url('.$attach_icn->guid.') no-repeat scroll center center; "></div>
-						<div class="cat-txt-btm-cntnr">
-							<ul>
-								<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. ucwords ($category->name) .'</a></label><span>'. $count .'</span></li>
-							</ul>
-						</div>';
-						
-						$children = get_term_children($category->term_id, 'resource-category');
-						if( !empty( $children ) )
-						{
-							echo '<div class="child-category">'. front_child_category($category->term_id) .'</div>';
-						}
-			echo '</div>';
+			echo '<div class="snglctwpr"><div class="cat-div" data-ownback="'.get_template_directory_uri().'/img/top-arrow.png" onMouseOver="changeonhover(this)" onMouseOut="changeonout(this);" onclick="togglenavigation(this);" data-id="'.$cnt.'" data-class="'.$lepcnt.'" data-normalimg="'.$attach_icn->guid.'" data-hoverimg="'.$attach_icn_hover->guid.'">
+				<div class="cat-icn" style="background: url('.$attach_icn->guid.') no-repeat scroll center center; "></div>
+				<div class="cat-txt-btm-cntnr">
+					<ul>
+						<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. ucwords ($category->name) .'</a></label><span>'. $count .'</span></li>
+					</ul>
+				</div>';
 				
-			if(($cnt % 4) == 0)
-			{
+				$children = get_term_children($category->term_id, 'resource-category');
+				if( !empty( $children ) )
+				{
+					echo '<div class="child-category">'. front_child_category($category->term_id) .'</div>';
+				}
+			echo '</div>';
+			//if(($cnt % 4) == 0){
 				echo '<div class="child_content_wpr" data-id="'.$lepcnt.'"></div>';
 				$lepcnt++;
-			}
+			//}
 		$cnt++;
+		echo '</div>';
+		
 	}
 echo '</div>';
 		
 		
 		
-echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
+/*echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
 		$cnt = 1;
 		foreach($categories as $category)	
 		{
@@ -113,7 +113,7 @@ echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
 			}
 			$cnt++;
 		}
-echo '</div>';
+echo '</div>';*/
 	?>
 	
 	<!--Home What's Free Section-->
@@ -134,15 +134,25 @@ echo '</div>';
 			);
 			$posts = get_posts($args);
 			
-			foreach($posts as $post)
+			if(!empty($posts))
 			{
-				setup_postdata($post); 
-				$feature_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-				echo '<li><a href="'.get_permalink().'">
-					  <img src="'. $feature_image .'" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>
-					  <span class="date-icn">'. get_the_time( 'F j, Y', $post->ID ) .'</span> <span class="time-icn">'. date('H:i', get_post_time( 'U', true)) .'</span></a></li>';
+				foreach($posts as $post)
+				{
+					setup_postdata($post); 
+					$feature_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+					echo '<li><a href="'.get_permalink().'">';
+					if(!empty($feature_image))
+					{
+						echo '<img src="'. $feature_image .'" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+					}
+					else
+					{
+						echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+					}
+					echo '<span class="date-icn">'. get_the_time( 'F j, Y', $post->ID ) .'</span></a></li>';
+				}
+				wp_reset_postdata();
 			}
-			wp_reset_postdata();
 		?>
 		 </ul>
     </div>
@@ -154,7 +164,7 @@ echo '</div>';
 	
 	<!--Home Featured Resource Post Section-->
 	<div class="ftrd-cntnr mrgn-left">
-    	<span class="hdng"> - Featured Resources - </span> 
+    	<span class="hdng"> - Highlighted Resources - </span> 
         <ul>
 		<?php
 			function limit_words($string, $word_limit)
@@ -170,15 +180,25 @@ echo '</div>';
 			);
 			$posts = get_posts($args);
 			
-			foreach($posts as $post)
+			if(!empty($posts))
 			{
-				setup_postdata($post); 
-				$feature_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-				echo '<li><a href="'.get_permalink().'">
-						<img src="'. $feature_image .'" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>
-					  	<span class="ftrd-rsrcs-mtr">'. limit_words($post->post_content, 10) .'</span></a></li>';
+				foreach($posts as $post)
+				{
+					setup_postdata($post); 
+					$feature_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+					echo '<li><a href="'.get_permalink().'">';
+					if(!empty($feature_image))
+					{
+						echo '<img src="'. $feature_image .'" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+					}
+					else
+					{
+						echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+					}
+					echo '<span class="ftrd-rsrcs-mtr">'. limit_words($post->post_content, 10) .'</span></a></li>';
+				}
+				wp_reset_postdata();
 			}
-			wp_reset_postdata();
 		?>
         </ul>
     </div>

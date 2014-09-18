@@ -11,6 +11,16 @@ jQuery(document).ready(function(e) {
 	jQuery('.allftrdpst_slider').bxSlider({ 
 		pager: false
 	});
+	
+	
+	jQuery(".snglctwpr").each(function(index, element) {
+        var hght = jQuery(this).children(".cat-div").children(".child-category").height();
+		jQuery(this).children(".cat-div").children(".child-category").attr("data-height", hght);
+		jQuery(this).children(".cat-div").children(".child-category").hide();
+		//alert(hght);
+    });
+	
+	
 });
 
 function toggleparent(ref)
@@ -62,6 +72,7 @@ function togglenavigation(ref)
 				if(jQuery(this).attr("data-class") == datid)
 				{
 					jQuery(this).slideUp("slow");
+					jQuery(this).parent(".snglctwpr").height("auto");
 				}
 				else
 				{
@@ -70,6 +81,11 @@ function togglenavigation(ref)
 					jQuery(this).html(htmldata);
 					jQuery(this).attr("data-class", datid);
 					jQuery(this).slideDown("slow");
+					
+					var hght_upr = jQuery(ref).height();
+					var hght_lwr = jQuery(ref).children(".child-category").attr("data-height");
+					var ttl_hght = parseInt(hght_upr) + parseInt(hght_lwr) + parseInt(80);
+					jQuery(ref).parent(".snglctwpr").height(ttl_hght);
 				}	
 			}
 			else
@@ -77,11 +93,18 @@ function togglenavigation(ref)
 				jQuery(this).html(htmldata);
 				jQuery(this).attr("data-class", datid);
 				jQuery(this).slideDown("slow");
+				
+				var hght_upr = jQuery(ref).height();
+				var hght_lwr = jQuery(ref).children(".child-category").attr("data-height");
+				var ttl_hght = parseInt(hght_upr) + parseInt(hght_lwr) + parseInt(80);
+				jQuery(ref).parent(".snglctwpr").height(ttl_hght);
 			}
+			
 		}
 		else
 		{
 			jQuery(this).slideUp("slow");
+			jQuery(this).parent(".snglctwpr").height("auto");
 		}
 	});
 
@@ -166,4 +189,18 @@ function collapse(ref)
             return jQuery(ref).is(":visible") ? "Collapse" : "Expand";
         });
     });	
+}
+// Slide Toggole in Subject Button
+function tglcategories(ref)
+{
+	if(jQuery(ref).hasClass("open"))
+	{
+		jQuery(ref).removeClass("open")
+	}
+	else
+	{
+		jQuery(ref).addClass("open")
+	}
+    jQuery(".category_sidebar").slideToggle("slow");
+	
 }

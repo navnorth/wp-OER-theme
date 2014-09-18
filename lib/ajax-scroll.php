@@ -21,7 +21,13 @@ if($_REQUEST["task"] == 'dataScroll')
 		<div class="snglrsrc">
 			 <?php if(!empty($image)){?>
 			<div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
-			<?php }?>
+			<?php }
+			else
+			{
+				$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
+				echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+			}
+			?>
 			<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
 				<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 				<div class="desc"><?php echo $content; ?></div>

@@ -16,22 +16,28 @@
 <div class="cntnr">
 	<div id="primary" class="site-content">
 		<div id="content" role="main">
-			<?php foreach($posts as $post)
-			{
-				$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-				$permalink = get_permalink($post->ID);
-				$date =  get_the_time('F j, Y', $post-ID);
-				$title = $post->post_title;
-				$excerpt = $post->post_content;
-				$excerpt = strip_tags($excerpt);
-				$excerpt = substr($excerpt, 0, 400);
-				$excerpt = substr($excerpt, 0, strripos($excerpt, " "));
-				$tags = wp_get_post_tags($post->ID);
+			<?php
+				if(!empty($posts))
+				{
+					foreach($posts as $post)
+					{
+						$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+						$permalink = get_permalink($post->ID);
+						$date =  get_the_time('F j, Y', $post-ID);
+						$title = $post->post_title;
+						$excerpt = $post->post_content;
+						$excerpt = strip_tags($excerpt);
+						$excerpt = substr($excerpt, 0, 400);
+						$excerpt = substr($excerpt, 0, strripos($excerpt, " "));
+						$tags = wp_get_post_tags($post->ID);
 			?>
 				<div class="oer_blgpst">
-					<div class="oer-feature-image">
-						<img width="150" height="150" class="attachment-thumbnail wp-post-image" src="<?php echo $image;?>">
-					</div>
+					<a href="<?php echo get_permalink($post->ID);?>">
+						<div class="oer-feature-image">
+							<img width="150" height="150" class="attachment-thumbnail wp-post-image" src="<?php echo $image;?>">
+						</div>
+					</a>
+					
 					<div class="rght-sd-cntnr-blg">
 						<h2>
 							<a rel="bookmark" href="<?php echo $permalink;?>"><?php echo $title;?></a><br>
@@ -78,6 +84,7 @@
 					</div>
 				</div>
 			<?php
+				}
 			}
 			?>
 		</div>

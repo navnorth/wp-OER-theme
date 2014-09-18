@@ -7,7 +7,8 @@ $term = get_the_title();
 $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 ?>
 <div class="cntnr">
-	<div class="category_sidebar">
+	<div class="subject-btn" onclick="tglcategories(this);"> Subjects List </div>
+    <div class="category_sidebar">
 	<?php
 	echo '<ul class="category">';
 			$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category', 'parent' => 0);
@@ -107,7 +108,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 						<div class="frtdsnglwpr">
 							<?php
 							if(!empty($image)){?>
-							<div class="img"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
+							<a href="<?php echo get_permalink($post->ID);?>"><div class="img"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div></a>
 							<?php }?>
 							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 							<div class="desc"><?php echo $content; ?></div>
@@ -149,8 +150,14 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					?>
 						<div class="snglrsrc">
 							 <?php if(!empty($image)){?>
-							<div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
-							<?php }?>
+							<a href="<?php echo get_permalink($post->ID);?>"><div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div></a>
+							<?php }
+							else
+							{
+								$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
+								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.' &amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+							}
+							?>
 							<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
 								<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 								<div class="desc"><?php echo $content; ?></div>
