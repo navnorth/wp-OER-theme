@@ -111,7 +111,7 @@ get_header(); ?>
 							if(!empty($oer_mediatype))
 							{ ?>
 								<h3>Type:</h3>
-								<div class="view"><?php echo $oer_mediatype; ?></div>
+								<div class="view"><?php echo ucwords($oer_mediatype); ?></div>
 						<?php } ?>		
                     </div>
 					<?php 
@@ -183,7 +183,7 @@ get_header(); ?>
 							   <?php
 									foreach($keywords as $keyword)
 									{
-										echo "<span><a href='".get_tag_link($keyword->term_id)."'>".$keyword->name."</a></span>";
+										echo "<span><a href='".get_tag_link($keyword->term_id)."'>".ucwords($keyword->name)."</a></span>";
 									}
 								?>
 								</div>

@@ -47,11 +47,11 @@ if($rsltdata['parent'] != 0)
 				
 				if( !empty( $children ) )
 				{
-					echo '<li class="sub-category has-child'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'" title="'. $category->name .'" >'. ucwords ($category->name) .'</a></span>';
+					echo '<li class="sub-category has-child'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'" title="'. $category->name .'" >'. $category->name .'</a></span>';
 				}
 				else
 				{
-					echo '<li class="sub-category'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'"  title="'. $category->name .'" >'. ucwords ($category->name) .'</a></span>';
+					echo '<li class="sub-category'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'"  title="'. $category->name .'" >'. $category->name .'</a></span>';
 				}
 				echo get_category_child( $category->term_id);
 				echo '</li>';
@@ -66,7 +66,11 @@ if($rsltdata['parent'] != 0)
 			<ul>
 				<?php
 					$termid = get_cat_ID( get_the_title() );
-					$top_cat = split(':',get_category_parents($termid, FALSE, ':', TRUE));
+					$strcat = get_custom_category_parents($termid, "resource-category" , FALSE, ':', TRUE);
+					if(strpos($strcat,':'))
+					{
+						$top_cat = split(':',$strcat);
+					}
 					$parent = $top_cat[0];
 					
 					$catobj = get_category_by_slug($parent);

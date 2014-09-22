@@ -570,14 +570,14 @@ function get_category_child($categoryid)
 			{
 				echo '<li class="sub-category has-child'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
-							<a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a>
+							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
 						</span>';
 			}
 			else
 			{
 				echo '<li class="sub-category'.$class.'" title="'. $catchild->name .'" >
 						<span onclick="toggleparent(this);">
-							<a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a>
+							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
 						</span>';
 			}	
 			get_category_child( $catchild->term_id);
@@ -612,11 +612,11 @@ function front_child_category($categoryid)
 			$count = $count + $catchild->count;
 			if( !empty( $children ) )
 			{
-				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . ucwords ($catchild->name) .'</a><label>'. $count .'</label></span>';
+				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
 			}
 			else
 			{
-				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . ucfirst($catchild->name) .'</a><label>'. $count .'</label></span>';				
+				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';				
 			}	
 			$rtrn .=  front_child_category( $catchild->term_id);
 			$rtrn .= '</li>';
@@ -679,4 +679,35 @@ function insert_attachment($file_handler,$post_id,$setthumb='false')
  
   if ($setthumb) update_post_meta($post_id,'_thumbnail_id',$attach_id);
   return $attach_id;
+}
+//GET Custom Texonomy Parent
+function get_custom_category_parents( $id, $taxonomy = false, $link = false, $separator = '/', $nicename = false, $visited = array() ) {
+
+	if(!($taxonomy && is_taxonomy_hierarchical( $taxonomy )))
+		return '';
+
+	$chain = '';
+	// $parent = get_category( $id );
+	$parent = get_term( $id, $taxonomy);
+	if ( is_wp_error( $parent ) )
+		return $parent;
+
+	if ( $nicename )
+		$name = $parent->slug;
+	else
+		$name = $parent->name;
+
+	if ( $parent->parent && ( $parent->parent != $parent->term_id ) && !in_array( $parent->parent, $visited ) ) {
+		$visited[] = $parent->parent;
+		// $chain .= get_category_parents( $parent->parent, $link, $separator, $nicename, $visited );
+		$chain .= get_custom_category_parents( $parent->parent, $taxonomy, $link, $separator, $nicename, $visited );
+	}
+
+	if ( $link ) {
+		// $chain .= '<a href="' . esc_url( get_category_link( $parent->term_id ) ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $parent->name ) ) . '">'.$name.'</a>' . $separator;
+		$chain .= '<a href="' . esc_url( get_term_link( (int) $parent->term_id, $taxonomy ) ) . '" title="' . esc_attr( sprintf( __( "View all posts in %s" ), $parent->name ) ) . '">'.$name.'</a>' . $separator;
+	} else {
+		$chain .= $name.$separator;
+	}
+	return $chain;
 }

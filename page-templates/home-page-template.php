@@ -55,7 +55,7 @@ echo '<div class="ctgry-cntnr">';
 				<div class="cat-icn" style="background: url('.$attach_icn->guid.') no-repeat scroll center center; "></div>
 				<div class="cat-txt-btm-cntnr">
 					<ul>
-						<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. ucwords ($category->name) .'</a></label><span>'. $count .'</span></li>
+						<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. $category->name .'</a></label><span>'. $count .'</span></li>
 					</ul>
 				</div>';
 				
@@ -101,7 +101,7 @@ echo '</div>';
 					<div class="cat-icn cat-icn-mobile" style="background: url('.$attach_icn->guid.') no-repeat scroll center center; "></div>
 					<div class="cat-txt-btm-cntnr cat-txt-btm-cntnr-mobile">
 						<ul>
-							<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. ucwords ($category->name) .'</a></label><span>'. $count .'</span></li>
+							<li><label class="mne-sbjct-ttl" ><a href="'. site_url() .'/'. $category->slug .'">'. $category->name .'</a></label><span>'. $count .'</span></li>
 						</ul>
 					</div>';
 			echo '</div>';

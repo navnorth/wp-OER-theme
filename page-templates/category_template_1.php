@@ -32,11 +32,11 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				
 				if( !empty( $children ) )
 				{
-					echo '<li class="sub-category has-child'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'" title="'. $category->name .'" >'. ucwords ($category->name) .'</a></span>';
+					echo '<li class="sub-category has-child'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'" title="'. $category->name .'" >'. $category->name .'</a></span>';
 				}
 				else
 				{
-					echo '<li class="sub-category'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'"  title="'. $category->name .'" >'. ucwords ($category->name) .'</a></span>';
+					echo '<li class="sub-category'.$class.'"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $category->slug .'"  title="'. $category->name .'" >'. $category->name .'</a></span>';
 				}
 				echo get_category_child( $category->term_id);
 				echo '</li>';
@@ -53,7 +53,11 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 					
 					$termid = get_cat_ID( get_the_title() );
-					$top_cat = split(':',get_category_parents($termid, FALSE, ':', TRUE));
+					$strcat = get_custom_category_parents($termid, "resource-category" , FALSE, ':', TRUE);
+					if(strpos($strcat,':'))
+					{
+						$top_cat = split(':',$strcat);
+					}
 					$parent = $top_cat[0];
 					
 					$catobj = get_category_by_slug($parent);
@@ -109,7 +113,13 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 							<?php
 							if(!empty($image)){?>
 							<a href="<?php echo get_permalink($post->ID);?>"><div class="img"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div></a>
-							<?php }?>
+							<?php }
+							else
+							{
+								$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
+								echo '<a href="'.get_permalink($post->ID).'"><div class="img"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=220&amp;h=180&amp;zc=0" alt="'.$title.'"></div></a>';
+							}
+							?>
 							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 							<div class="desc"><?php echo $content; ?></div>
 						</div>
@@ -155,7 +165,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 							else
 							{
 								$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
-								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.' &amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
 							}
 							?>
 							<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
