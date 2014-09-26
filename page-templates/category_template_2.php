@@ -65,7 +65,7 @@ if($rsltdata['parent'] != 0)
 		<div class="pgbrdcrums">
 			<ul>
 				<?php
-					$termid = get_cat_ID( get_the_title() );
+					$termid = get_term_by('name', $term, "resource-category" );
 					$strcat = get_custom_category_parents($termid, "resource-category" , FALSE, ':', TRUE);
 					if(strpos($strcat,':'))
 					{

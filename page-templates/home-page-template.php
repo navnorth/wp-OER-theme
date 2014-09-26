@@ -115,7 +115,27 @@ echo '</div>';
 		}
 echo '</div>';*/
 	?>
-	
+	<script type="text/javascript">
+		function gethght(ref)
+		{
+			var sum = parseInt(jQuery(ref).parents(".snglctwpr").height());
+			if(jQuery(ref).parent("li").hasClass("activelist"))
+			{
+				jQuery(ref).next("ul").children("li").each(function(index, element) {
+					sum += jQuery(ref).height();    
+				});
+				jQuery(ref).parents(".snglctwpr").css("height",sum+"px");
+				
+			}
+			else
+			{
+				jQuery(ref).next("ul").children("li").each(function(index, element) {
+					sum -= jQuery(ref).height();    
+				});
+				jQuery(ref).parents(".snglctwpr").css("height",sum+"px");
+			}
+		}
+	</script>
 	<!--Home What's Free Section-->
     <div class="wht-free-cntnr pdng-btm">
     	<?php dynamic_sidebar( 'home_what-free' ); ?>

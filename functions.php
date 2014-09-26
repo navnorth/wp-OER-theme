@@ -612,7 +612,7 @@ function front_child_category($categoryid)
 			$count = $count + $catchild->count;
 			if( !empty( $children ) )
 			{
-				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
+				$rtrn .=  '<li class="sub-category has-child"><span onclick="toggleparent(this); gethght(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
 			}
 			else
 			{

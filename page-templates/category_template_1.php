@@ -51,8 +51,8 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 			<ul>
 				<?php
 					$timthumb = get_template_directory_uri().'/lib/timthumb.php';
-					
-					$termid = get_cat_ID( get_the_title() );
+					$term = get_the_title();
+					$termid = get_term_by('name', $term, "resource-category" );
 					$strcat = get_custom_category_parents($termid, "resource-category" , FALSE, ':', TRUE);
 					if(strpos($strcat,':'))
 					{
