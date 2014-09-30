@@ -77,7 +77,7 @@ get_header(); ?>
 					<?php if(!empty($post->post_content)) {?>
 						<div class="sngl-rsrc-dscrptn">
 							<h1>Description</h1>
-							<?php echo $post->post_content; ?>
+							<?php echo $content = apply_filters ("the_content", $post->post_content); ?>
 						</div>
 					<?php } ?>
 					                    
