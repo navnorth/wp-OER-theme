@@ -7,13 +7,13 @@ get_header(); ?>
 	<div class="cntnr">
         <div id="sngl-resource" class="sngl_resource_wrapper">
                 <?php global $post; global $wpdb; ?>
-                
+
 				<div class="rsrclftcntr-img">
                     <!--Resource URL-->
                     <div class="sngl-rsrc-url">
                         <a href="<?php echo get_permalink($post->ID);?>"><?php echo $post->post_title;?></a>
                     </div>
-                   
+
                     <!--Resource Image-->
                     <div class="sngl-rsrc-img">
                         <a class="featureimg" href="<?php echo get_post_meta($post->ID, "oer_resourceurl", true)?>" target="_blank" >
@@ -25,18 +25,17 @@ get_header(); ?>
                         }
 						else
 						{
-							$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
-							echo '<img src="'.$timthumb.'?src='.$dfltimg.'&w=528&h=455&zc=0" alt="'.get_the_title().'"/>';
+							echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon-528x455.png" alt="'.get_the_title().'"/>';
 						}
 						?>
                     	</a>
                         <a class="rsrcurl" href="<?php echo get_post_meta($post->ID, "oer_resourceurl", true); ?>" target="_blank" >
                             <?php echo get_post_meta($post->ID, "oer_resourceurl", true); ?>
-                        </a>	
+                        </a>
                     </div>
 
               </div>
-              
+
 				<div class="rsrcrghtcntr">
                 	<div class="rsrcctgries">
                     	<?php
@@ -52,15 +51,15 @@ get_header(); ?>
 								else
 								{
 									echo '<a href="'.site_url().'/'.$term->slug.'">'.ucwords ($term->name).'</a>';
-								}	
+								}
 							}
-							
-							if(!empty($parent) && array_filter($parent))	
+
+							if(!empty($parent) && array_filter($parent))
 							{
 								$recur_multi_dimen_arr_obj =  new RecursiveArrayIterator($parent);
 								$recur_flat_arr_obj =  new RecursiveIteratorIterator($recur_multi_dimen_arr_obj);
 								$flat_arr = iterator_to_array($recur_flat_arr_obj, false);
-											
+
 								$flat_arr = array_values(array_unique($flat_arr));
 								for($k=0; $k < count($flat_arr); $k++)
 								{
@@ -69,10 +68,10 @@ get_header(); ?>
 									echo '<a href="'.site_url().'/'.$idObj->slug.'">'.ucwords ($idObj->name).'</a>';
 								}
 							}
-						}	
+						}
 						?>
                     </div>
-					
+
                     <!--Resource Description-->
 					<?php if(!empty($post->post_content)) {?>
 						<div class="sngl-rsrc-dscrptn">
@@ -80,30 +79,30 @@ get_header(); ?>
 							<?php echo $content = apply_filters ("the_content", $post->post_content); ?>
 						</div>
 					<?php } ?>
-					                    
+
                     <div id="" class="authorName cbxl">
-						<?php 
+						<?php
 							$oer_authorname = get_post_meta($post->ID, "oer_authorname", true);
 							$oer_authorurl = get_post_meta($post->ID, "oer_authorurl", true);
-							
+
 							if(!empty($oer_authorname) && !empty($oer_authorurl))
 							{
 							?>
 								<h3>Creator:</h3>
 								<div class="view"><a href="<?php echo $oer_authorurl; ?>" target="_blank"><?php echo $oer_authorname; ?></a></div>
-							<?php } ?>	
+							<?php } ?>
                     </div>
                     <div id="" class="publisherName cbxl">
-                        <?php 
+                        <?php
 							$oer_publishername = get_post_meta($post->ID, "oer_publishername", true);
 							$oer_publisherurl = get_post_meta($post->ID, "oer_publisherurl", true);
-							
+
 							if(!empty($oer_publishername) && !empty($oer_publisherurl))
 							{
 							?>
 								<h3>Publisher:</h3>
 								<div class="view"><a href="<?php echo $oer_publisherurl; ?>" target="_blank"><?php echo $oer_publishername; ?></a></div>
-							<?php } ?>	
+							<?php } ?>
 					</div>
                     <div id="" class="mediaType cbxl">
 						<?php
@@ -112,29 +111,29 @@ get_header(); ?>
 							{ ?>
 								<h3>Type:</h3>
 								<div class="view"><?php echo ucwords($oer_mediatype); ?></div>
-						<?php } ?>		
+						<?php } ?>
                     </div>
-					<?php 
+					<?php
 						$grades =  trim(get_post_meta($post->ID, "oer_grade", true),",");
 						$grades = explode(",",$grades);
-						
+
 						if(is_array($grades) && !empty($grades) && array_filter($grades))
 						{
-					?>	
+					?>
 						<div class="rsrcgrd cbxl">
 							<h3>Grades:</h3>
 							<div class="view">
                         	<?php
 									sort($grades);
-								
+
 									for($x=0; $x < count($grades); $x++)
 									{
 									  $grades[$x];
 									}
 									$fltrarr = array_filter($grades, 'strlen');
-									
+
 									$flag = array();
-									$elmnt = $fltrarr[min(array_keys($fltrarr))]; 
+									$elmnt = $fltrarr[min(array_keys($fltrarr))];
 									for($i =0; $i < count($fltrarr); $i++)
 									{
 										if($elmnt == $fltrarr[$i])
@@ -147,7 +146,7 @@ get_header(); ?>
 										}
 										$elmnt++;
 									}
-									
+
 									if(in_array('0',$flag))
 									{
 										echo implode(",",array_unique($fltrarr));
@@ -160,8 +159,8 @@ get_header(); ?>
                         </div>
                     </div>
 					<?php }?>
-					
-					<?php 
+
+					<?php
 						$oer_datecreated = get_post_meta($post->ID, "oer_datecreated", true);
 						if(!empty($oer_datecreated))
 						{
@@ -171,7 +170,7 @@ get_header(); ?>
                         <div class="view"><?php echo $oer_datecreated; ?></div>
                     </div>
 					<?php } ?>
-					
+
 					<?php
 						$keywords = wp_get_post_tags($post->ID);
 						if(!empty($keywords))
@@ -188,9 +187,9 @@ get_header(); ?>
 								?>
 								</div>
 							</div>
-					<?php } ?>		
-                    
-                    
+					<?php } ?>
+
+
                     <!--Resource Meta Data-->
                     <div class="sngl-rsrc-meta">
                         <!-- Meta Data Navigation Tab-->
@@ -200,7 +199,7 @@ get_header(); ?>
                          <a href="javascript:" data-id="keyword" title="Keywords" onclick="rsrc_tabs(this);"><?php //echo count($keywords); ?></a>
                          <a href="javascript:" data-id="moreLikeThis" title="More Like This" onclick="rsrc_tabs(this);"><?php //echo $count; ?></a>
                        </div>-->
-                       
+
                        <!-- Meta Data Navigation Tab Tags-->
                        <!--<div class="tags">
                             <h3>Tags</h3>
@@ -209,7 +208,7 @@ get_header(); ?>
                                     <h3>Resource Type</h3>
                                     <div class="view"><?php //echo get_post_meta($post->ID, "oer_lrtype", true); ?></div>
                                 </div>
-                                
+
                                 <div id="language" class="cbxl">
                                     <h3>Language</h3>
                                     <div class="view">English</div>
@@ -222,13 +221,13 @@ get_header(); ?>
                             <h3>More Like This</h3>
                             <div class="meta_container">
                             <?php
-								
+
                                 /*$tags = wp_get_post_tags($post->ID);
                                 if ($tags)
                                 {
                                       $tag_ids = array();
                                       foreach($tags as $individual_tag) $tag_ids[] = $individual_tag->term_id;
-                                    
+
                                       $args=array(
                                         'tag__in' 		=> $tag_ids,
                                         'post__not_in' 	=> array($post->ID),
@@ -236,9 +235,9 @@ get_header(); ?>
                                         'post_type'		=> 'resource',
                                         'ignore_sticky_posts'	=> 1
                                        );
-                                    
+
                                       $my_query = new WP_Query($args);
-                                    
+
                                       if( $my_query->have_posts() )
                                       {
                                         while ($my_query->have_posts()) : $my_query->the_post(); */?>
@@ -247,13 +246,13 @@ get_header(); ?>
                                                     <a href="<?php //the_permalink() ?>" rel="bookmark" title="<?php //the_title_attribute(); ?>"><?php //the_title(); ?></a>
                                                 </div>
                                                 <div class="sngl-rltd-rsrc-description">
-                                                    <?php //echo the_content(); ?> 
+                                                    <?php //echo the_content(); ?>
                                                 </div>
                                                 <div class="sngl-rltd-rsrc-img">
                                                     <?php //$img_url = wp_get_attachment_url(get_post_meta( //$post->ID, "_thumbnail_id" , true)); ?>
                                                     <img src="<?php //echo $img_url;?>" alt="<?php //the_title();?>"/>
                                                 </div>
-                                            </div>	
+                                            </div>
                                           <?php
                                         /*endwhile;
                                       }
@@ -271,28 +270,28 @@ get_header(); ?>
                        </div>-->
                     </div>
                 </div> <!--Description & Resource Info at Right-->
-                
+
                 <div class="rsrclftcntr">
-                    
-					<?php 
-						
+
+					<?php
+
 						$stdrd_id = get_post_meta($post->ID, 'oer_standard_alignment', true);
 						$oer_standard = get_post_meta($post->ID, 'oer_standard', true);
-						
+
 						if(!empty($stdrd_id) || !empty($oer_standard))
 						{
-					?>			
+					?>
                     	<div class="alignedStandards">
                             <h3>Standards</h3>
                             <div class="meta_container">
                                 <div class="stndrd_align">
-                                <?php 
+                                <?php
                                     if(!empty($stdrd_id))
                                     {
 										echo "<h3>Standard Alignment</h3>";
                                         $res = $wpdb->get_row("select standard_name from oer_core_standards where id='$stdrd_id'", ARRAY_A);
                                         echo "<div class='stndrd_ttl'>".$res['standard_name']."</div>";
-                                    }	
+                                    }
                                     ?>
                                 </div>
                                 <div class="stndrds_notn">
@@ -317,13 +316,13 @@ get_header(); ?>
                                             }
                                         }
                                     ?>
-                                </div>	
+                                </div>
                             </div>
                        </div>
-					<?php } ?>   
+					<?php } ?>
                 </div> <!--Thumbnail & Standards Info at Left-->
-                
-        
+
+
         </div><!-- .single resource wrapper -->
 	</div>
 <?php get_footer(); ?>
