@@ -262,7 +262,7 @@ article.post-password-required input[type=submit],
 	border-radius: 3px;
 	box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);*/
 	
-	width: 100%
+	width: auto
 }
 .menu-toggle,
 button,
@@ -802,9 +802,6 @@ article.sticky .featured-post {
 	width: 100%
 }
 
-
-.entry-content span { float: left; width: 100%;margin-bottom: 25px; border-top: 1px solid #ddd; padding: 5px 0; border-bottom: 1px solid #ddd; }
-.entry-content span a {padding: 0 5px}
 .entry-content h1,
 .comment-content h1,
 .entry-content h2,
@@ -1526,7 +1523,7 @@ img#wpstats {
 
 
 /*---========================= Extyra Classes Add By RA Start ======================---*/
-.ctgry-cntnr {width: 100%; padding-bottom: 10px; border-bottom:1px dashed #ccc; position: relative; margin: 0 auto }
+.ctgry-cntnr {width: 100%; padding-bottom: 10px; border-bottom:1px dashed #ccc; position: relative; margin: 0 auto; float: left; }
 .cat-div {float: none; width:278px; height:auto; border:1px solid #afafaf; margin:10px; background: none no-repeat scroll center bottom #fff; position: relative; clear: both; height: 325px; display: inline-block;}
 .child_content_wpr{ float: left; margin: 0; padding: 20px 20px 20px 20px; display: none; background: #ededed; border-top: 1px solid #024387; border-bottom: 1px solid #024387; position: absolute; left: 0; right: 0}
 .cat-icn {float: left; width:100%; height: 245px; /*margin-bottom:44px*/}
@@ -2728,6 +2725,33 @@ img#wpstats {
 
 /*styles of Search & Tage page*/
 
+/* Style override theme css*/
+.oer_entry-content h1 {
+	font-size: 21px;
+	font-size: 1.5rem;
+	line-height: 1.5;
+	font-weight: normal;
+	margin-top: 0;
+	margin-bottom: 10px;
+	color: #333;
+	float: left;
+	width: auto;
+	width: 75%;
+	clear: right;
+}
+.oer_entry-content a{
+    color: #21759b;
+    text-decoration: none;
+}
+.oer_entry-content p{
+    color: #555;
+    line-height: 1.71429;
+    margin: 0 0 1.71429rem;
+    width: auto;
+}
+.oer_entry-content span { float: left; width: 100%;margin-bottom: 25px; border-top: 1px solid #ddd; padding: 5px 0; border-bottom: 1px solid #ddd; }
+.oer_entry-content span a {padding: 0 5px}
+
 /*----================ Media Queries ================----*/
 
 @media (max-width: 1051px) {
@@ -2738,7 +2762,7 @@ img#wpstats {
 	#slideshow-wrappercategory #fullsizecategory {height: 295px !important;}
 	.menu-footer-menu-container {width: 95%;}
 	
-	.entry-content h1, .comment-content h1 { width: 68%}
+	.oer_entry-content h1 { width: 68%}
 	
 	.rsrcrghtcntr { width: 53%;}
  	.rsrclftcntr { width: 100%; border-top: 1px solid #ddd}
@@ -2794,7 +2818,7 @@ img#wpstats {
 	
 	.menu-footer-menu-container {width: 100%;}
 	
-	.entry-content h1, .comment-content h1 {width: 57%;
+	.oer_entry-content h1 {width: 57%;
 }
 }
 
@@ -2866,7 +2890,7 @@ img#wpstats {
 	.category_sidebar .category .sub-category.has-child>span:hover {background: url(img/plus.png) no-repeat scroll 93% center #f2f2f2 } 
 	
 	.category_sidebar .category .sub-category.activelist.has-child>span {background: url(img/minus.png) no-repeat scroll 93% center #024387;}
-	.rght-sd-cntnr-cntnt, .entry-content h1, .comment-content h1 {width: 57%;}
+	.rght-sd-cntnr-cntnt, .oer_entry-content h1, .comment-content h1 {width: 57%;}
 	.rsrclftcntr, .rsrclftcntr-img, .rsrcrghtcntr {width: 100%; }
 	.sngl-rsrc-img { width: 72%;}
 	
@@ -2895,7 +2919,7 @@ img#wpstats {
 	.search_flds > input[type="text"] {width: 80%;}
 	.search_flds > input[type="submit"] {width: 14%;}
 	
-	.rght-sd-cntnr-cntnt, .entry-content h1, .comment-content h1 {width: 50%}
+	.rght-sd-cntnr-cntnt, .oer_entry-content h1, .comment-content h1 {width: 50%}
 	.smooth_slider {height: 275px !important}
 	
 	.sngl-rsrc-img {width: 99%; margin-right: 0; overflow: hidden; margin-bottom: 10px;}
@@ -2946,7 +2970,7 @@ img#wpstats {
 	.smooth_slider .smooth_sliderb .smooth_slideri > p.smooth_more a { margin: 0 !important}
 	.smooth_slider {height: 215px !important}
 	
-	.entry-content h1, .comment-content h1{ width: 100%; margin-top: 10px;}
+	.oer_entry-content h1{ width: 100%; margin-top: 10px;}
 	.blg_featureimg { width: 98%; margin: 0}
 	.rsrcctgries a, .rsrckeyword .meta_container span a { font-weight: normal}
 	
@@ -3166,7 +3190,7 @@ img#wpstats {
 	a {
 		text-decoration: none;
 	}
-	.entry-content img,
+	.oer_entry-content img,
 	.comment-content img,
 	.author-avatar img,
 	img.wp-post-image {

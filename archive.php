@@ -18,7 +18,7 @@
  */
 
 get_header(); ?>
-
+<div class="cntnr">
 	<section id="primary" class="site-content">
 		<div id="content" role="main">
 
@@ -37,27 +37,34 @@ get_header(); ?>
 				?></h1>
 			</header><!-- .archive-header -->
 
-			<?php
-			/* Start the Loop */
-			while ( have_posts() ) : the_post();
+			<?php /* Start the Loop */ ?>
+			<?php while ( have_posts() ) : the_post(); ?>
 
-				/* Include the post format-specific template for the content. If you want to
-				 * this in a child theme then include a file called called content-___.php
-				 * (where ___ is the post format) and that will be used instead.
-				 */
-				get_template_part( 'content', get_post_format() );
+				<div class="oer_blgpst">
 
-			endwhile;
+                    <?php if ( has_post_thumbnail() ) {?>
+						<div class="oer-feature-image">
+						<?php if ( ! post_password_required() && ! is_attachment() ) :
+							the_post_thumbnail("thumbnail");
+						endif; ?>
+						</div>
+					<?php }?>
 
-			twentytwelve_content_nav( 'nav-below' );
-			?>
+                    <div class="rght-sd-cntnr-blg">
+                        <h2><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
 
-		<?php else : ?>
-			<?php get_template_part( 'content', 'none' ); ?>
+                        <div class="small"><span><?php the_time('F jS, Y'); ?> </span></div>
+
+                        <div class="oer-post-content">
+                            <?php the_excerpt(); ?>
+                        </div>
+					</div>
+				</div>
+		 <?php endwhile; ?>
+
 		<?php endif; ?>
 
 		</div><!-- #content -->
 	</section><!-- #primary -->
-
-<?php get_sidebar(); ?>
+</div>
 <?php get_footer(); ?>

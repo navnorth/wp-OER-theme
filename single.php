@@ -21,10 +21,13 @@ get_header(); ?>
 						$title = get_the_title($id);
 						$content = $post->post_content;
 						$tag     = wp_get_post_tags($id);
-						$date    =  get_the_time('F j, Y', $id); 
+						$date    =  get_the_time('F j, Y', $id);
+						$month   =  get_the_time('m', $id); 
+						$year    =  get_the_time('Y', $id); 
+						$day     =  get_the_time('j', $id); 
 						?>
 						
-						<div class="entry-content">
+						<div class="oer_entry-content">
 							<img src="<?php echo $image; ?>" class="blg_featureimg" />
                             <h1><a href=""><?php echo $title; ?></a></h1>
 							
@@ -32,7 +35,7 @@ get_header(); ?>
 							
 							<p><?php echo the_content();?></p> 
                             
-							<span><?php foreach($tag as $tags){ ?> <a href=""> <?php echo $tags->name."" ;?> </a> // <?php }?> <a href=""><?php echo $date ;?></a></span>
+							<span><?php foreach($tag as $tags){ ?> <a href="<?php echo get_tag_link($tags->term_id); ?>"> <?php echo $tags->name."" ;?> </a> // <?php }?> <a href="<?php echo get_day_link( $year, $month, $day );?>"><?php echo $date ;?></a></span>
 						</div>
 					<?php
 					endwhile; 
