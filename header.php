@@ -33,12 +33,23 @@
 </head>
 
 <body <?php body_class(); ?>>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-39699979-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 <div id="page" class="hfeed site">
 	<header id="masthead" class="site-header" role="banner">
 	  <div class="cntnr">
 		<!-- #site-logo -->
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php //theme_logo(); ?><img src="<?php echo get_template_directory_uri();?>/img/free-logo.png" alt="Theme Logo"/></a></h1>
-		
+
 		<div class="search_form">
 			<form id="searchform" class="searchform" action="<?php echo site_url(); ?>" method="get" role="search">
 			<div class="search_flds">
@@ -47,7 +58,7 @@
 			</div>
 			</form>
 		</div>
-		
+
 		<!-- #site-navigation -->
 		<nav id="site-navigation" class="main-navigation" role="navigation">
 			<h3 class="menu-toggle"><?php _e( 'Menu', 'twentytwelve' ); ?></h3>
@@ -55,25 +66,25 @@
 			<?php wp_nav_menu( array( 'theme_location' => 'header_menu', 'menu_class' => 'nav-menu' ) ); ?>
 		</nav>
        </div>
-	   
-	   
+
+
 		<!-- #site-slider -->
         <?php if(is_front_page())
 		{?>
-           
+
             <div class="oer_slider_wrapper">
-              <div class="cntnr"> 
+              <div class="cntnr">
 				<?php echo do_shortcode("[smoothslider id='1']"); ?>
               </div>
-            </div>	
+            </div>
 		<?php
 		}
 		?>
-        
+
 		<?php if ( get_header_image() ) : ?>
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<?php header_image(); ?>" class="header-image" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="" /></a>
 		<?php endif; ?>
-	   
+
 	</header><!-- #masthead -->
 
 	<div id="main" class="wrapper">

@@ -74,7 +74,7 @@ function twentytwelve_setup() {
 	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
-	
+
 	//register_nav_menu('header_menu' , __('Header Menu' , 'twentytwelve'));
 }
 add_action( 'after_setup_theme', 'twentytwelve_setup' );
@@ -269,7 +269,7 @@ function twentytwelve_widgets_init() {
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );*/
-	
+
 	register_sidebar( array(
 		'name' => __( 'Twitter Feeds at Home Page', 'twentytwelve' ),
 		'id' => 'home_twitter',
@@ -279,7 +279,7 @@ function twentytwelve_widgets_init() {
 		'before_title' => '<h3 class="widget-title">',
 		'after_title' => '</h3>',
 	) );
-	
+
 	register_sidebar( array(
 		'name' => __( 'What\'s Free Section at Home Page', 'twentytwelve' ),
 		'id' => 'home_what-free',
@@ -371,7 +371,7 @@ function twentytwelve_comment( $comment, $args, $depth ) {
 				<?php comment_reply_link( array_merge( $args, array( 'reply_text' => __( 'Reply', 'twentytwelve' ), 'after' => ' <span>&darr;</span>', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 			</div><!-- .reply -->
 		</article><!-- #comment-## -->
-	 
+
 	<?php
 		break;
 	endswitch; // end comment_type check
@@ -545,9 +545,9 @@ function get_category_child($categoryid)
 			$parentid[] = $idObj->term_id;
 		}
 	}
-	
+
 	if(!empty($catchilds))
-	{	
+	{
 		echo '<ul class="category">';
 		foreach($catchilds as $catchild)
 		{
@@ -555,7 +555,7 @@ function get_category_child($categoryid)
 			//current class
 			if($rsltdata['term_id'] == $catchild->term_id)
 			{
-				$class = ' activelist current_class';	
+				$class = ' activelist current_class';
 			}
 			elseif(in_array($catchild->term_id, $parentid))
 			{
@@ -565,7 +565,7 @@ function get_category_child($categoryid)
 			{
 				$class = '';
 			}
-			
+
 			if( !empty( $children ) )
 			{
 				echo '<li class="sub-category has-child'.$class.'" title="'. $catchild->name .'" >
@@ -579,12 +579,12 @@ function get_category_child($categoryid)
 						<span onclick="toggleparent(this);">
 							<a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a>
 						</span>';
-			}	
+			}
 			get_category_child( $catchild->term_id);
 			echo '</li>';
 		}
 		echo '</ul>';
-	}	
+	}
 }
 
 //Get Category Parent List
@@ -592,7 +592,7 @@ function get_parent_term($id)
 {
 	$curr_cat = get_category_parents($id, false, '/' ,true);
 	$curr_cat = explode('/',$curr_cat);
-	
+
 	return $curr_cat;
 }
 
@@ -601,9 +601,9 @@ function front_child_category($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
 	$catchilds = get_categories($args);
-	
+
 	if(!empty($catchilds))
-	{	
+	{
 		$rtrn .= '<ul class="category">';
 		foreach($catchilds as $catchild)
 		{
@@ -616,15 +616,15 @@ function front_child_category($categoryid)
 			}
 			else
 			{
-				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';				
-			}	
+				$rtrn .=  '<li class="sub-category"><span onclick="toggleparent(this);"><a href="'. site_url() .'/'. $catchild->slug .'">' . $catchild->name .'</a><label>'. $count .'</label></span>';
+			}
 			$rtrn .=  front_child_category( $catchild->term_id);
 			$rtrn .= '</li>';
 		}
 		$rtrn .=  '</ul>';
 	}
-	
-	return $rtrn;	
+
+	return $rtrn;
 }
 
 //Get Total Post Count
@@ -634,7 +634,7 @@ function oer_post_count($category, $taxonomy)
 	$args = array(
 	  'child_of' => $category,
 	);
-	
+
 	$tax_terms = get_terms($taxonomy,$args);
 	foreach ($tax_terms as $tax_term)
 	{
@@ -648,10 +648,10 @@ function addthemescripts()
 {
 	wp_enqueue_style('bxslider-style', get_template_directory_uri().'/css/jquery.bxslider.css');
 	wp_enqueue_style('additional-style', get_template_directory_uri().'/css/additional.css');
-	
+
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('bxslider-script', get_template_directory_uri().'/js/jquery.bxslider.js');
-	
+
 	wp_enqueue_script('theme-front', get_template_directory_uri().'/js/theme_front.js');
 }
 
@@ -670,13 +670,13 @@ add_filter( 'pre_get_posts', 'oer_add_custom_types' );
 function insert_attachment($file_handler,$post_id,$setthumb='false')
 {
   if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
- 
+
   require_once(ABSPATH . "wp-admin" . '/includes/image.php');
   require_once(ABSPATH . "wp-admin" . '/includes/file.php');
   require_once(ABSPATH . "wp-admin" . '/includes/media.php');
- 
+
   $attach_id = media_handle_upload( $file_handler, $post_id );
- 
+
   if ($setthumb) update_post_meta($post_id,'_thumbnail_id',$attach_id);
   return $attach_id;
 }
@@ -711,3 +711,17 @@ function get_custom_category_parents( $id, $taxonomy = false, $link = false, $se
 	}
 	return $chain;
 }
+
+// Custom Function to Include favicon - currently disabled
+function favicon_link() {
+    echo '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />' . "\n";
+}
+//add_action( 'wp_head', 'favicon_link' );
+
+
+function federated_analytics_tracking_code(){
+    echo '<script type="text/javascript" src="http://www2.ed.gov/style/federated-analytics.js"></script>';
+}
+
+add_action('wp_head', 'federated_analytics_tracking_code');
+
