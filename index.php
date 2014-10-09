@@ -17,26 +17,33 @@
 get_header(); ?>
 	<div class="cntnr">
         <div id="primary" class="site-content">
-            <?php
-            $posts = get_posts(array('post_type'=> 'post'));
-            //print_r($posts);
-            ?>
+           <?php
+				$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+				$search_query = array(
+					'posts_per_page' => '10',
+					'paged' => $paged,
+					);
+				$wp_query = new WP_Query($search_query);
+			?>
+
             <div id="content" role="main">
-                <?php foreach($posts as $post)
-                {
-                    $image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
-                    $permalink = get_permalink($post->ID);
-                    $date =  get_the_time('F j, Y', $post-ID);
-                    $title = $post->post_title;
-					$excerpt = $post->post_content;
-					$excerpt = strip_tags($excerpt);
-					$excerpt = substr($excerpt, 0, 400);
-					$excerpt = substr($excerpt, 0, strripos($excerpt, " "));
-                	$tags = wp_get_post_tags($post->ID);
-				?>
+                <?php if ($wp_query->have_posts()) : while ($wp_query->have_posts()) : $wp_query->the_post();
+
+							$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+							$permalink = get_permalink($post->ID);
+							$date =  get_the_time('F j, Y', $post-ID);
+							$title = $post->post_title;
+							$excerpt = $post->post_content;
+							$excerpt = strip_tags($excerpt);
+							$excerpt = substr($excerpt, 0, 400);
+							$excerpt = substr($excerpt, 0, strripos($excerpt, " "));
+							$tags = wp_get_post_tags($post->ID);
+					?>
                     <div class="oer_blgpst">
                         <div class="oer-feature-image">
+                        	<?php if(!empty($image)){?>
                             <img width="150" height="150" class="attachment-thumbnail wp-post-image" src="<?php echo $image;?>">
+                            <?php } ?>
                         </div>
                         <div class="rght-sd-cntnr-blg">
                             <h2>
@@ -52,7 +59,7 @@ get_header(); ?>
                         </div>
                         <div class="oer_entry_meta">
                         	<div class="oer_pstag">
-								<?php 
+								<?php
 								$count = count($tags);
 								foreach($tags as $tag)
                                 {
@@ -83,9 +90,14 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
+                <?php endwhile; ?><?php else : ?>
+                    <p class="notfoundtext">Sorry, nothing came back matching what you searched. Try again?</p>
+                <?php endif; ?>
+
+                <div class="oer_paginate">
+					<?php pagination(); ?>
+                </div>
+
             </div>
         </div><!-- #primary -->
 	</div>

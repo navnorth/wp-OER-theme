@@ -20,6 +20,12 @@ jQuery(document).ready(function(e) {
 		//alert(hght);
     });
 	
+	jQuery(".smooth_slideri").each(function(index, element) {
+		var src = jQuery(this).children("a").children("img").attr("src");
+		var timthumb = jQuery("#timthumburl").val();
+		src = timthumb+"?src="+src+"&w=1024&h=833&zc=0";
+		jQuery(this).children("a").children("img").attr("src", src);
+	});
 	
 });
 
@@ -202,5 +208,4 @@ function tglcategories(ref)
 		jQuery(ref).addClass("open")
 	}
     jQuery(".category_sidebar").slideToggle("slow");
-	
 }

@@ -12,7 +12,11 @@ get_header(); ?>
 <div class="cntnr">	
 	<section id="primary" class="site-content">
 		<div id="content" role="main">
-
+		<?php
+			global $wp_query;
+			$total_results = $wp_query->found_posts;
+		?>
+		
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
@@ -57,7 +61,11 @@ get_header(); ?>
 			</article><!-- #post-0 -->
 
 		<?php endif; ?>
-
+		
+        <div class="oer_paginate">
+			<?php pagination(); ?>
+        </div>
+            	
 		</div><!-- #content -->
 	</section><!-- #primary -->
 </div>

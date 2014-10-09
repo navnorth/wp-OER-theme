@@ -53,6 +53,7 @@
 </div>
 </div><!--#main closed-->
 </div><!--#page closed-->
+<input type="hidden" id="timthumburl" value="<?php echo get_template_directory_uri();?>/lib/timthumb.php" />
 <?php wp_footer(); ?>
 </body>
 </html>

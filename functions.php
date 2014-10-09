@@ -651,8 +651,12 @@ function addthemescripts()
 
 	wp_enqueue_script('jquery');
 	wp_enqueue_script('bxslider-script', get_template_directory_uri().'/js/jquery.bxslider.js');
+}
 
-	wp_enqueue_script('theme-front', get_template_directory_uri().'/js/theme_front.js');
+add_filter('wp_footer', 'footerthemescripts');
+function footerthemescripts()
+{
+	wp_enqueue_script('theme-front', get_template_directory_uri().'/js/theme_front.js', array(), '1.0.0', true);
 }
 
 //Add Custom Post Type to Query Post
@@ -712,6 +716,43 @@ function get_custom_category_parents( $id, $taxonomy = false, $link = false, $se
 	return $chain;
 }
 
+//Pagination
+function pagination($pages = '', $range = 4){
+ $showitems = ($range * 2)+1;
+
+ global $paged;
+ if(empty($paged)) $paged = 1;
+
+ if($pages == '')
+ {
+     global $wp_query;
+     $pages = $wp_query->max_num_pages;
+     if(!$pages)
+     {
+         $pages = 1;
+     }
+ }
+
+ if(1 != $pages)
+ {
+     echo "<div class=\"pagination\"><span class='oer_pages'>Page ".$paged." of ".$pages." - </span>";
+     if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".get_pagenum_link(1)."'>&laquo; First</a>";
+     if($paged > 1 && $showitems < $pages) echo "<a href='".get_pagenum_link($paged - 1)."'>&lsaquo; Previous</a>";
+
+     for ($i=1; $i <= $pages; $i++)
+     {
+         if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
+         {
+             echo ($paged == $i)? "<span class=\"oercurrent\">".$i."</span>":"<a href='".get_pagenum_link($i)."' class=\"oerinactvpg\">".$i."</a>";
+         }
+     }
+
+     if ($paged < $pages && $showitems < $pages) echo "<a href=\"".get_pagenum_link($paged + 1)."\">Next &rsaquo;</a>";
+     if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".get_pagenum_link($pages)."'>Last &raquo;</a>";
+     echo "</div>\n";
+ }
+}
+
 // Custom Function to Include favicon - currently disabled
 function favicon_link() {
     echo '<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />' . "\n";
@@ -724,4 +765,3 @@ function federated_analytics_tracking_code(){
 }
 
 add_action('wp_head', 'federated_analytics_tracking_code');
-

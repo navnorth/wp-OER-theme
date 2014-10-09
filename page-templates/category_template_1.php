@@ -91,11 +91,13 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 			$args = array(
 				'meta_key' => 'oer_highlight',
 				'meta_value' => 1,
-				'post_type' => 'resource',
-				'posts_per_page' => -1,
+				'post_type'  => 'resource',
+				'orderby'	 => 'rand',
+				'posts_per_page' => 10,
 				'tax_query' => array(array('taxonomy' => 'resource-category','terms' => array($rsltdata['term_id'])))
 			);
 			$posts = get_posts($args);
+			
 			if(!empty($posts))
 			{ ?>
 			<ul class="featuredwpr_bxslider">
@@ -103,10 +105,10 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 				foreach($posts as $post)
 				{
+					setup_postdata( $post );
 					$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 					$title =  $post->post_title;
 					$content =  $post->post_content;
-					$content = substr($content, 0, 40);
 				?>
 					<li>
 						<div class="frtdsnglwpr">
@@ -121,7 +123,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 							}
 							?>
 							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
-							<div class="desc"><?php echo $content; ?></div>
+							<div class="desc"><?php echo apply_filters('the_content',$content); ?></div>
 						</div>
 					</li>
 				<?php
@@ -216,7 +218,7 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				{
 					$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 					$title =  $post->post_title;
-					$content =  $post->post_content;
+					$content = strip_tags($post->post_content);
 					$content = substr($content, 0, 250);
 				?>
 					<li>
