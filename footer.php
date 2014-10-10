@@ -54,6 +54,7 @@
 </div><!--#main closed-->
 </div><!--#page closed-->
 <input type="hidden" id="timthumburl" value="<?php echo get_template_directory_uri();?>/lib/timthumb.php" />
+<input type="hidden" id="siteurl" value="<?php echo site_url();?>" />
 <?php wp_footer(); ?>
 </body>
 </html>

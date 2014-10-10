@@ -1,5 +1,5 @@
 jQuery(document).ready(function(e) {
-    jQuery('.featuredwpr_bxslider').bxSlider({ 
+    jQuery('.featuredwpr_bxslider').bxSlider({
 		minSlides: 3,
   		maxSlides: 3,
 		moveSlides: 1,
@@ -7,26 +7,41 @@ jQuery(document).ready(function(e) {
   		slideMargin: 10,
 		pager: false
 	});
-	
-	jQuery('.allftrdpst_slider').bxSlider({ 
+
+	jQuery('.allftrdpst_slider').bxSlider({
 		pager: false
 	});
-	
-	
+
+
 	jQuery(".snglctwpr").each(function(index, element) {
         var hght = jQuery(this).children(".cat-div").children(".child-category").height();
 		jQuery(this).children(".cat-div").children(".child-category").attr("data-height", hght);
 		jQuery(this).children(".cat-div").children(".child-category").hide();
 		//alert(hght);
     });
-	
+
 	jQuery(".smooth_slideri").each(function(index, element) {
 		var src = jQuery(this).children("a").children("img").attr("src");
+		var siteurl = jQuery("#siteurl").val();
 		var timthumb = jQuery("#timthumburl").val();
-		src = timthumb+"?src="+src+"&w=1024&h=833&zc=0";
+
+		/*var pathArray = siteurl.split( '/' );
+		var protocol = pathArray[0];
+		var host = pathArray[2];
+		var siteurl = protocol + '//' + host;
+
+		var pathArray = src.split( '/' );
+		var protocol = pathArray[0];
+		var host = pathArray[2];
+		var url = protocol + '//' + host;
+
+		if(url == siteurl)
+		{*/
+			src = timthumb+"?src="+src+"&w=1024&h=833&zc=0";
+		/*}*/
 		jQuery(this).children("a").children("img").attr("src", src);
 	});
-	
+
 });
 
 function toggleparent(ref)
@@ -49,8 +64,8 @@ function togglenavigation(ref)
 			{
 				jQuery(value).addClass("active-cat");
 			}
-			
-			
+
+
 			if ( jQuery(value).children(".active-arrow").length )
 			{
 				jQuery(value).children( ".active-arrow" ).remove();
@@ -87,25 +102,25 @@ function togglenavigation(ref)
 					jQuery(this).html(htmldata);
 					jQuery(this).attr("data-class", datid);
 					jQuery(this).slideDown("slow");
-					
+
 					var hght_upr = jQuery(ref).height();
 					var hght_lwr = jQuery(ref).children(".child-category").attr("data-height");
 					var ttl_hght = parseInt(hght_upr) + parseInt(hght_lwr) + parseInt(80);
 					jQuery(ref).parent(".snglctwpr").height(ttl_hght);
-				}	
+				}
 			}
 			else
 			{
 				jQuery(this).html(htmldata);
 				jQuery(this).attr("data-class", datid);
 				jQuery(this).slideDown("slow");
-				
+
 				var hght_upr = jQuery(ref).height();
 				var hght_lwr = jQuery(ref).children(".child-category").attr("data-height");
 				var ttl_hght = parseInt(hght_upr) + parseInt(hght_lwr) + parseInt(80);
 				jQuery(ref).parent(".snglctwpr").height(ttl_hght);
 			}
-			
+
 		}
 		else
 		{
@@ -174,7 +189,7 @@ function load_onScroll(ref)
 {
 	var path = jQuery(ref).attr("file-path");
 	var dataId = jQuery(ref).attr("data-id");
-	
+
 	if(jQuery(ref).scrollTop() >= 15)
 	{
 		jQuery.ajax({
@@ -194,7 +209,7 @@ function collapse(ref)
         jQuery(ref).text(function () {
             return jQuery(ref).is(":visible") ? "Collapse" : "Expand";
         });
-    });	
+    });
 }
 // Slide Toggole in Subject Button
 function tglcategories(ref)
