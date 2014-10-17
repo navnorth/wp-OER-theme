@@ -2328,13 +2328,13 @@ img#wpstats {
 .tabNavigator a:hover, .tabNavigator a:focus { background-color: #c5c5c5; color: #444; box-shadow: none; }
 
 .tabNavigator a[data-id=tags]
-{ background-image: url(http://monadinfotech.com/education/wp-content/themes/education/img/icon_tag_bg.png); }
+{ background-image: url(img/icon_tag_bg.png); }
 .tabNavigator a[data-id=keyword]
-{ background-image: url(http://monadinfotech.com/education/wp-content/themes/education/img/icon_keywords_bg.png); }
+{ background-image: url(img/icon_keywords_bg.png); }
 .tabNavigator a[data-id=moreLikeThis]
-{ background-image: url(http://monadinfotech.com/education/wp-content/themes/education/img/icon_morelikethis_bg.png); }
+{ background-image: url(img/icon_morelikethis_bg.png); }
 .tabNavigator a[data-id=alignedStandards]
-{ background-image: url(http://monadinfotech.com/education/wp-content/themes/education/img/icon_standards_bg.png); }
+{ background-image: url(img/icon_standards_bg.png); }
 
 
 .sngl-rltd-rsrc {
