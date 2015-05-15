@@ -761,7 +761,8 @@ function favicon_link() {
 
 
 function federated_analytics_tracking_code(){
-    echo '<script type="text/javascript" src="http://www2.ed.gov/style/federated-analytics.js"></script>';
+    //echo '<script type="text/javascript" src="http://www2.ed.gov/style/federated-analytics.js"></script>';
+    echo '<script language="javascript" id="_fed_an_ua_tag" src="http://www2.ed.gov/style/Universal-Federated-Analytics.1.0.js?ver=true&agency=ED"></script>';
 }
 add_action('wp_head', 'federated_analytics_tracking_code');
 

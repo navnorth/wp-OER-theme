@@ -20,6 +20,9 @@
 <html <?php language_attributes(); ?>>
 <!--<![endif]-->
 <head>
+<!-- force IE to disable compatibility mode on IE9+, due to ed.gov intranet -->
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <title><?php wp_title( '|', true, 'right' ); ?></title>
