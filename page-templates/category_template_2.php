@@ -135,7 +135,7 @@ if($rsltdata['parent'] != 0)
 							<?php }
 							else
 							{
-								$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
+								$dfltimg = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
 								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
 							}
 							?>

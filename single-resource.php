@@ -25,7 +25,7 @@ get_header(); ?>
                         }
 						else
 						{
-							echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon-528x455.png" alt="'.get_the_title().'"/>';
+							echo '<img src="'.site_url().'/wp-content/plugins/wp-oer/images/default-icon-528x455.png" alt="'.get_the_title().'"/>';
 						}
 						?>
                     	</a>

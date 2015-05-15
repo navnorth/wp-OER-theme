@@ -167,7 +167,7 @@ echo '</div>';*/
 					}
 					else
 					{
-						echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+						echo '<img src="'.site_url().'/wp-content/plugins/wp-oer/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
 					}
 					echo '<span class="date-icn">'. get_the_time( 'F j, Y', $post->ID ) .'</span></a></li>';
 				}
@@ -213,7 +213,7 @@ echo '</div>';*/
 					}
 					else
 					{
-						echo '<img src="'.site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
+						echo '<img src="'.site_url().'/wp-content/plugins/wp-oer/images/default-icon.png" alt="List Image"/><span class="ftrd-ttl-frst" >'. get_the_title() .'</span>';
 					}
 					echo '<span class="ftrd-rsrcs-mtr">'. limit_words($post->post_content, 10) .'</span></a></li>';
 				}

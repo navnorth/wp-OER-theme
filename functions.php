@@ -763,5 +763,20 @@ function favicon_link() {
 function federated_analytics_tracking_code(){
     echo '<script type="text/javascript" src="http://www2.ed.gov/style/federated-analytics.js"></script>';
 }
-
 add_action('wp_head', 'federated_analytics_tracking_code');
+
+// Don't show WP version
+function my_remove_version_info() {
+     return '';
+}
+add_filter('the_generator', 'my_remove_version_info');
+
+// remove wp version param from any enqueued scripts
+function vc_remove_wp_ver_css_js( $src ) {
+    if ( strpos( $src, 'ver=' ) )
+        $src = remove_query_arg( 'ver', $src );
+    return $src;
+}
+add_filter( 'style_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
+add_filter( 'script_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
+
