@@ -5,7 +5,6 @@
 get_header();
 $term = get_the_title();
 $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
-$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 
 $parentid = array();
 if($rsltdata['parent'] != 0)
@@ -78,7 +77,8 @@ if($rsltdata['parent'] != 0)
 					if(!empty($getimage))
 					{
 						$attach_icn = get_post($getimage[0]->post_id);
-						echo '<li><img src="'. $timthumb.'?src='.$attach_icn->guid.'&w=32&h=32&zc=0" /></li>';
+						$new_image_url = wft_resize_image( $attach_icn->guid , 32 , 32 , true );
+						echo '<li><img src="'. $new_image_url .'" /></li>';
 					}
 					else
 					{
@@ -121,7 +121,6 @@ if($rsltdata['parent'] != 0)
 				
 				if(!empty($posts))
 				{
-					$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 					foreach($posts as $post)
 					{
 						$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
@@ -130,15 +129,12 @@ if($rsltdata['parent'] != 0)
 						$content = substr($content, 0, 180);
 					?>
 						<div class="snglrsrc">
-							 <?php if(!empty($image)){?>
-								<a href="<?php echo get_permalink($post->ID);?>"><div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&w=80&h=60&zc=0';?>"></div></a>
-							<?php }
-							else
-							{
-								$dfltimg = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
-								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+							<?php if(empty($image)){
+								$image = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
 							}
+							$new_image_url = wft_resize_image( $image , 80 , 60 , true );
 							?>
+							<a href="<?php echo get_permalink($post->ID);?>"><div class="snglimglft"><img src="<?php echo $new_image_url;?>" alt="<?php echo $title; ?>"></div></a>
 							<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
 								<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 								<div class="desc"><?php echo $content; ?></div>
