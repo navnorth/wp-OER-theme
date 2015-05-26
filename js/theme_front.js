@@ -23,12 +23,13 @@ jQuery(document).ready(function(e) {
     
 	jQuery(".smooth_slideri").each(function(index, element) {
 		var src = jQuery(this).children("a").children("img").attr("src");
+		var img = jQuery(this).children("a").children("img");
 		var siteurl = jQuery("#siteurl").val();
 		var ajaxurl = jQuery("#ajaxurl").val();
 		var wp_nonce = jQuery("#resize_nonce").val();
 		
 		//Ajax call to get thumbnail url
-		new_src = jQuery.ajax({
+		jQuery.ajax({
 		    method: "POST" ,
 		    url: ajaxurl,
 		    data: {
@@ -39,31 +40,18 @@ jQuery(document).ready(function(e) {
 			height: 833,
 			crop: true
 		    },
-		    global: false,
-		    async: false, 
 		    success: function(msg){
-			return msg;
+			set_new_source(msg, img);
 		    }
-		}).responseText;
-		/*var pathArray = siteurl.split( '/' );
-		var protocol = pathArray[0];
-		var host = pathArray[2];
-		var siteurl = protocol + '//' + host;
-
-		var pathArray = src.split( '/' );
-		var protocol = pathArray[0];
-		var host = pathArray[2];
-		var url = protocol + '//' + host;
-
-		if(url == siteurl)
-		{*/
-			/*src = timthumb+"?src="+src+"&w=1024&h=833&zc=0";*/
-		/*}*/
-		console.log(new_src);
-		jQuery(this).children("a").children("img").attr("src", new_src);
+		});
 	});
 
 });
+
+function set_new_source(source, sourceElement) {
+    new_src = source;
+    sourceElement.attr("src", new_src);
+}
 
 function toggleparent(ref)
 {
