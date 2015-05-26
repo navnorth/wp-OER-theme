@@ -824,3 +824,24 @@ function wft_resize_image($orig_img_url, $width, $height, $crop = false) {
 	}
 	return $new_image_url;
 }
+
+//Ajax call for the slider resize image
+add_action("wp_ajax_image_resizer", "resize_my_image");
+add_action("wp_ajax_nopriv_image_resizer", "resize_my_image");
+
+function resize_my_image(){
+	if ( !wp_verify_nonce( $_REQUEST['nonce'] , "my_resizer_nonce" ) ){
+		exit("Call not allowed!");
+	}
+	
+	$image = (isset($_REQUEST['image']))?$_REQUEST['image']:'';
+	$width = (isset($_REQUEST['width']))?$_REQUEST['width']:0;
+	$height = (isset($_REQUEST['height']))?$_REQUEST['height']:0;
+	$crop = (isset($_REQUEST['crop']))?$_REQUEST['crop']:false;
+	
+	$resized_image = wft_resize_image( $image, $width, $height, $crop );
+	
+	echo $resized_image;
+	
+	die();
+}
