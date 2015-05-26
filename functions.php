@@ -785,8 +785,14 @@ function wft_resize_image($orig_img_url, $width, $height, $crop = false) {
 	
 	$suffix = "{$width}x{$height}";
 	
+	if ( !function_exists( 'get_home_path' ) )
+		require_once( dirname(__FILE__) . '/../../../wp-admin/includes/file.php' );
+	
+	$home_path = get_home_path();
+	
 	$img_path = $new_img_path = parse_url($orig_img_url);
 	$img_path = $_SERVER['DOCUMENT_ROOT'] . $img_path['path'];
+	
 	if (!empty($img_path)) {
 		//Resize Image using WP_Image_Editor class
 		$image_editor = wp_get_image_editor($img_path);
@@ -802,7 +808,7 @@ function wft_resize_image($orig_img_url, $width, $height, $crop = false) {
 			$dest_filename = "{$dir}/{$name}-{$suffix}.{$ext}";
 			
 			//Set port if port is not 80
-			$new_port = ($new_img_path['port']==80)?'':':'.$new_img_path['port'];
+			$new_port = ($new_img_path['port'])?':'.$new_img_path['port']:'';
 				
 			//new image url
 			$new_image_url = str_replace($_SERVER['DOCUMENT_ROOT'], "{$new_img_path['scheme']}://{$new_img_path['host']}{$new_port}", $dest_filename);
