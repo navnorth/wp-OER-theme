@@ -1,3 +1,4 @@
+var new_src = "";
 jQuery(document).ready(function(e) {
     jQuery('.featuredwpr_bxslider').bxSlider({
 		minSlides: 3,
@@ -19,30 +20,38 @@ jQuery(document).ready(function(e) {
 		jQuery(this).children(".cat-div").children(".child-category").hide();
 		//alert(hght);
     });
-
+    
 	jQuery(".smooth_slideri").each(function(index, element) {
 		var src = jQuery(this).children("a").children("img").attr("src");
+		var img = jQuery(this).children("a").children("img");
 		var siteurl = jQuery("#siteurl").val();
-		var timthumb = jQuery("#timthumburl").val();
-
-		/*var pathArray = siteurl.split( '/' );
-		var protocol = pathArray[0];
-		var host = pathArray[2];
-		var siteurl = protocol + '//' + host;
-
-		var pathArray = src.split( '/' );
-		var protocol = pathArray[0];
-		var host = pathArray[2];
-		var url = protocol + '//' + host;
-
-		if(url == siteurl)
-		{*/
-			src = timthumb+"?src="+src+"&w=1024&h=833&zc=0";
-		/*}*/
-		jQuery(this).children("a").children("img").attr("src", src);
+		var ajaxurl = jQuery("#ajaxurl").val();
+		var wp_nonce = jQuery("#resize_nonce").val();
+		
+		//Ajax call to get thumbnail url
+		jQuery.ajax({
+		    method: "POST" ,
+		    url: ajaxurl,
+		    data: {
+			action: 'image_resizer',
+			nonce: wp_nonce,
+			image: src,
+			width: 1024,
+			height: 833,
+			crop: true
+		    },
+		    success: function(msg){
+			set_new_source(msg, img);
+		    }
+		});
 	});
 
 });
+
+function set_new_source(source, sourceElement) {
+    new_src = source;
+    sourceElement.attr("src", new_src);
+}
 
 function toggleparent(ref)
 {

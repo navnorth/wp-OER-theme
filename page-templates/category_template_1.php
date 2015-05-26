@@ -50,7 +50,6 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 		<div class="pgbrdcrums">
 			<ul>
 				<?php
-					$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 					$term = get_the_title();
 					$termid = get_term_by('name', $term, "resource-category" );
 					$strcat = get_custom_category_parents($termid, "resource-category" , FALSE, ':', TRUE);
@@ -65,7 +64,8 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					if(!empty($getimage))
 					{
 						$attach_icn = get_post($getimage[0]->post_id);
-						echo '<li><img src="'. $timthumb.'?src='.$attach_icn->guid.'&amp;w=32&amp;h=32&amp;zc=0" alt="Breadcrumbs Icon" /></li>';
+						$new_image_url = wft_resize_image( $attach_icn->guid, 32 , 32 , true );
+						echo '<li><img src="'. $new_image_url .'" alt="Breadcrumbs Icon" /></li>';
 					}
 					else
 					{
@@ -102,7 +102,6 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 			{ ?>
 			<ul class="featuredwpr_bxslider">
 				<?php
-				$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 				foreach($posts as $post)
 				{
 					setup_postdata( $post );
@@ -113,15 +112,13 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					<li>
 						<div class="frtdsnglwpr">
 							<?php
-							if(!empty($image)){?>
-							<a href="<?php echo get_permalink($post->ID);?>"><div class="img"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div></a>
-							<?php }
-							else
-							{
-								$dfltimg = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
-								echo '<a href="'.get_permalink($post->ID).'"><div class="img"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=220&amp;h=180&amp;zc=0" alt="'.$title.'"></div></a>';
+							
+							if(empty($image)){
+								$image = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
 							}
+							$new_image_url = wft_resize_image( $image, 220, 180, true );
 							?>
+							<a href="<?php echo get_permalink($post->ID);?>"><div class="img"><img src="<?php echo $new_image_url;?>" alt="<?php echo $title;?>"></div></a>
 							<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 							<div class="desc"><?php echo apply_filters('the_content',$content); ?></div>
 						</div>
@@ -152,7 +149,6 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				$posts = get_posts($args);
 				if(!empty($posts))
 				{
-					$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 					foreach($posts as $post)
 					{
 						$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
@@ -161,15 +157,12 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 						$content = substr($content, 0, 180);
 					?>
 						<div class="snglrsrc">
-							 <?php if(!empty($image)){?>
-							<a href="<?php echo get_permalink($post->ID);?>"><div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div></a>
-							<?php }
-							else
-							{
-								$dfltimg = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
-								echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+							 <?php if(empty($image)){
+								$image = site_url().'/wp-content/plugins/wp-oer/images/default-icon.png';
 							}
+							$new_image_url = wft_resize_image( $image , 80 , 60 , true );
 							?>
+							<a href="<?php echo get_permalink($post->ID);?>"><div class="snglimglft"><img src="<?php echo $new_image_url;?>" alt="<?php echo $title;?>"></div></a>
 							<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">
 								<div class="ttl"><a href="<?php echo get_permalink($post->ID);?>"><?php echo $title;?></a></div>
 								<div class="desc"><?php echo $content; ?></div>
@@ -213,7 +206,6 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 				
 				<ul class="allftrdpst_slider">
 				<?php
-				$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 				foreach($posts as $post)
 				{
 					$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
@@ -224,17 +216,19 @@ $rsltdata = get_term_by( "name", $term, "resource-category", ARRAY_A );
 					<li>
 						<div class="allftrdsngl">
 							<?php
-							if(!empty($image)){?>
-							<div class="pstimg"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=220&amp;h=180&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
+							if(!empty($image)){
+								$new_image = wft_resize_image( $image , 220 , 180 , true );
+								?>
+							<div class="pstimg"><img src="<?php echo $new_image;?>" alt="<?php echo $title;?>"></div>
 							<?php }?>
 							<div class="rght-sd-cntnr-cntnt">
-                                <div class="psttl"><?php echo $title;?></div>
-                                <div class="pstdesc"><?php echo $content; ?></div>
-                                <div class="pstrdmr"><a href="<?php echo get_permalink($post->ID);?>">More</a></div>
-                                <div class="pstmta">
-                                    <span class="date-icn"><?php echo get_the_time( 'F j, Y', $post->ID );?></span>
-                                    <span class="time-icn"><?php echo  date('H:i', get_post_time( 'U', true));?></span>
-                                </div>
+							<div class="psttl"><?php echo $title;?></div>
+							<div class="pstdesc"><?php echo $content; ?></div>
+							<div class="pstrdmr"><a href="<?php echo get_permalink($post->ID);?>">More</a></div>
+							<div class="pstmta">
+							    <span class="date-icn"><?php echo get_the_time( 'F j, Y', $post->ID );?></span>
+							    <span class="time-icn"><?php echo  date('H:i', get_post_time( 'U', true));?></span>
+							</div>
 							</div>
                         </div>
 					</li>

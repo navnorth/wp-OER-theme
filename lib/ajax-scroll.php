@@ -10,7 +10,6 @@ if($_REQUEST["task"] == 'dataScroll')
 					'tax_query' => array(array('taxonomy' => 'resource-category','terms' => array($_REQUEST["termid"])))
 				);
 	$posts = get_posts($args);
-	$timthumb = get_template_directory_uri().'/lib/timthumb.php';
 	foreach($posts as $post)
 	{
 		$image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
@@ -19,13 +18,16 @@ if($_REQUEST["task"] == 'dataScroll')
 		$content = substr($content, 0, 180);
 	?>
 		<div class="snglrsrc">
-			 <?php if(!empty($image)){?>
-			<div class="snglimglft"><img src="<?php echo $timthumb.'?src='.$image.'&amp;w=80&amp;h=60&amp;zc=0';?>" alt="<?php echo $title;?>"></div>
+			 <?php if(!empty($image)){
+				$new_image = wft_resize_image( $image, 80, 60, true );
+			?>
+				<div class="snglimglft"><img src="<?php echo $new_image;?>" alt="<?php echo $title;?>"></div>
 			<?php }
 			else
 			{
 				$dfltimg = site_url().'/wp-content/plugins/OpenEducationalResource/images/default-icon.png';
-				echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$timthumb.'?src='.$dfltimg.'&amp;w=80&amp;h=60&amp;zc=0" alt="'.$title.'"></div></a>';
+				$default_image = wft_resize_image( $dfltimg, 80, 60, true );
+				echo '<a href="'.get_permalink($post->ID).'"><div class="snglimglft"><img src="'.$default_image.'" alt="'.$title.'"></div></a>';
 			}
 			?>
 			<div class="snglttldscrght <?php if(empty($image)){ echo 'snglttldscrghtfull';}?>">

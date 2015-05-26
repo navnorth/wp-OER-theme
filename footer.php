@@ -53,7 +53,9 @@
 </div>
 </div><!--#main closed-->
 </div><!--#page closed-->
-<input type="hidden" id="timthumburl" value="<?php echo get_template_directory_uri();?>/lib/timthumb.php" />
+<input type="hidden" id="resizerurl" value="<?php echo get_template_directory_uri();?>/lib/image-resizer.php" />
+<input type="hidden" id="ajaxurl" value="<?php echo site_url();?>/wp-admin/admin-ajax.php" />
+<input type="hidden" id="resize_nonce" value="<?php echo wp_create_nonce('my_resizer_nonce'); ?>" />
 <input type="hidden" id="siteurl" value="<?php echo site_url();?>" />
 <?php wp_footer(); ?>
 
