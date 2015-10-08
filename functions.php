@@ -775,7 +775,7 @@ add_filter('the_generator', 'my_remove_version_info');
 // remove wp version param from any enqueued scripts
 function vc_remove_wp_ver_css_js( $src ) {
     if ( strpos( $src, 'ver=' ) )
-        $src = remove_query_arg( 'ver', $src );
+        $src = esc_url( remove_query_arg( 'ver', $src ) );
     return $src;
 }
 add_filter( 'style_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
@@ -783,41 +783,41 @@ add_filter( 'script_loader_src', 'vc_remove_wp_ver_css_js', 9999 );
 
 function wft_resize_image($orig_img_url, $width, $height, $crop = false) {
 	$new_image_url = "";
-	
+
 	$suffix = "{$width}x{$height}";
-	
+
 	if ( !function_exists( 'get_home_path' ) )
 		require_once( dirname(__FILE__) . '/../../../wp-admin/includes/file.php' );
-	
+
 	$home_path = get_home_path();
-	
+
 	$img_path = $new_img_path = parse_url($orig_img_url);
 	$img_path = $_SERVER['DOCUMENT_ROOT'] . $img_path['path'];
-	
+
 	if (!empty($img_path)) {
 		//Resize Image using WP_Image_Editor class
 		$image_editor = wp_get_image_editor($img_path);
 		if ( !is_wp_error($image_editor) ) {
 			$new_image = $image_editor->resize( $width, $height, $crop );
-			
+
 			//Get Additional information of file
 			$info = pathinfo( $img_path );
 			$dir = $info['dirname'];
 			$ext = $info['extension'];
 			$name = wp_basename( $img_path , ".{$ext}" );
-			
+
 			$dest_filename = "{$dir}/{$name}-{$suffix}.{$ext}";
-			
+
 			//Set port if port is not 80
 			$new_port = ($new_img_path['port'])?':'.$new_img_path['port']:'';
-				
+
 			//new image url
 			$new_image_url = str_replace($_SERVER['DOCUMENT_ROOT'], "{$new_img_path['scheme']}://{$new_img_path['host']}{$new_port}", $dest_filename);
-			
+
 			if (!file_exists($dest_filename)) {
 				//save new resize image to file
 				$image_file = $image_editor->save($dest_filename);
-				
+
 				if ($image_file)
 					return $new_image_url;
 			}
@@ -834,15 +834,15 @@ function resize_my_image(){
 	if ( !wp_verify_nonce( $_REQUEST['nonce'] , "my_resizer_nonce" ) ){
 		exit("Call not allowed!");
 	}
-	
+
 	$image = (isset($_REQUEST['image']))?$_REQUEST['image']:'';
 	$width = (isset($_REQUEST['width']))?$_REQUEST['width']:0;
 	$height = (isset($_REQUEST['height']))?$_REQUEST['height']:0;
 	$crop = (isset($_REQUEST['crop']))?$_REQUEST['crop']:false;
-	
+
 	$resized_image = wft_resize_image( $image, $width, $height, $crop );
-	
+
 	echo $resized_image;
-	
+
 	die();
 }
