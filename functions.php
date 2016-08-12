@@ -601,6 +601,7 @@ function front_child_category($categoryid)
 {
  	$args = array('hide_empty' => 0, 'taxonomy' => 'resource-category','parent' => $categoryid);
 	$catchilds = get_categories($args);
+	$rtrn = "";
 
 	if(!empty($catchilds))
 	{
