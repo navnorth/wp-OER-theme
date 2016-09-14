@@ -14,13 +14,7 @@
 
 get_header(); ?>
 <div class="cntnr">
-<?php
-
-
-if (function_exists('load_front_page_resources')){
-	load_front_page_resources();
-}
-		
+<?php	
 		
 /*echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
 		$cnt = 1;
