@@ -13,9 +13,12 @@
  */
 
 get_header(); ?>
-<div class="cntnr">
+<!--<div class="cntnr">-->
 <?php	
 		
+if (function_exists("load_front_page_resources")) {
+	echo load_front_page_resources();
+}
 /*echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
 		$cnt = 1;
 		foreach($categories as $category)	
@@ -161,5 +164,5 @@ echo '</div>';*/
 		?>
         </ul>
     </div>
-</div>
+<!--</div>-->
 <?php get_footer(); ?>
