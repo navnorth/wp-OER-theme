@@ -14,11 +14,19 @@
 
 get_header(); ?>
 <!--<div class="cntnr">-->
+<div class="cntnr">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			<?php while ( have_posts() ) : the_post(); ?>
+				<?php get_template_part( 'content', 'page' ); ?>
+			<?php endwhile; // end of the loop. ?>
+
+		</div><!-- #content -->
+	</div><!-- #primary -->
+</div>
 <?php	
-		
-if (function_exists("load_front_page_resources")) {
-	echo load_front_page_resources();
-}
+	
 /*echo '<div class="ctgry-cntnr ctgry-cntnr-mobile">';
 		$cnt = 1;
 		foreach($categories as $category)	
